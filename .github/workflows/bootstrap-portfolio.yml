@@ -1,0 +1,65 @@
+name: Bootstrap Portfolio
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Determine if bootstrap needed
+        id: chk
+        run: |
+          set -e
+          # If any course directory exists, skip bootstrap
+          if ls -d CC/*/* 1>/dev/null 2>&1; then
+            echo "bootstrap=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "bootstrap=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install jq
+        if: steps.chk.outputs.bootstrap == 'true'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq
+
+      - name: Scaffold course and run generators
+        if: steps.chk.outputs.bootstrap == 'true'
+        env:
+          REPO_SLUG: ${{ github.repository }}
+          PM_COMMIT: "1"
+          PM_PUSH: "1"
+          PYTHONPATH: "."
+        run: |
+          set -euo pipefail
+          COURSE_PATH=$(jq -r '.course_path // empty' portfolio/config.json || true)
+          if [ -z "$COURSE_PATH" ] || [ "$COURSE_PATH" = "null" ]; then
+            COURSE_PATH=$(jq -r '.course_path // empty' portfolio/config.yaml || true)
+          fi
+          if [ -z "$COURSE_PATH" ] || [ "$COURSE_PATH" = "null" ]; then
+            echo "Missing course_path in portfolio/config.json or .yaml" >&2
+            exit 1
+          fi
+          TERM=$(echo "$COURSE_PATH" | cut -d/ -f2)
+          COURSE=$(echo "$COURSE_PATH" | cut -d/ -f3-)
+          bash scripts/portfolio/scaffold_course.sh "$TERM" "$COURSE"
+          # Ensure config.json reflects the intended course_path
+          if [ -f portfolio/config.json ]; then
+            tmp=$(mktemp)
+            jq --arg p "$COURSE_PATH" '.course_path=$p' portfolio/config.json > "$tmp" && mv "$tmp" portfolio/config.json
+          fi
+          REPO_SLUG="${REPO_SLUG}" PM_COMMIT=1 PM_PUSH=1 PYTHONPATH=. bash scripts/portfolio/run.sh all
+

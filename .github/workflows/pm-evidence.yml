@@ -1,0 +1,40 @@
+name: PM Evidence
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      enable_sync:
+        description: 'Enable Issues sync (uses GITHUB_TOKEN)'
+        required: false
+        default: 'false'
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Parse roadmap
+        run: python scripts/roadmap/parse_roadmap.py ROADMAP.md --out artifacts/roadmap.json
+      - name: Optional Issues sync
+        if: ${{ github.event.inputs.enable_sync == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: scripts/roadmap/sync_roadmap.sh ROADMAP.md "${{ github.repository }}"
+      - name: Build sessions index
+        run: python scripts/sessions/index_sessions.py --root . --out docs/sessions.md || true
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pm-evidence
+          path: |
+            artifacts/roadmap.json
+            artifacts/state.json
+            artifacts/env.json
+            artifacts/sync.log
+            docs/sessions.md
+
