@@ -6,6 +6,21 @@
 
 Shifted from reconnaissance-at-a-distance to **active enumeration** — probing services for versions, users, shares, and misconfigurations — then onto **credential brute-forcing** and automated **vulnerability scanning** with OpenVAS.
 
+## Enumeration → Exploitation Flow
+
+```mermaid
+flowchart LR
+    ENUM["🔍 Service\nEnumeration"] --> CRED{Credentials\nfound?}
+    CRED -->|Yes| LOGIN["🔓 Authenticated\nAccess"]
+    CRED -->|No| BRUTE["🔨 Brute Force\n(Hydra/Medusa)"]
+    BRUTE --> LOCKOUT{Account\nlockout?}
+    LOCKOUT -->|Yes| SCAN["📋 Vuln Scan\n(OpenVAS)"]
+    LOCKOUT -->|No| LOGIN
+    LOGIN --> PRIV["⬆️ Privilege\nEscalation"]
+    SCAN --> CVE["🎯 CVE-based\nExploit"]
+    CVE --> PRIV
+```
+
 ## Topics Covered
 
 ### 1. Service Enumeration

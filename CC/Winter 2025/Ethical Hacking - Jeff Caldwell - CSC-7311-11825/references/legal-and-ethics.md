@@ -8,6 +8,9 @@ The single most important distinction in this course: **authorized penetration t
 
 ## The Canadian Criminal Code
 
+> [!CAUTION]
+> Without **express written authorization**, running any offensive tool against any system you do not own constitutes a potential indictable offence under the Criminal Code. This is the single brightest line in the profession.
+
 Canada criminalizes unauthorized computer access primarily through:
 
 ### s. 342.1 — Unauthorized Use of a Computer
@@ -41,6 +44,9 @@ Covers packet capture, wiretapping, and eavesdropping without consent.
 - **s. 342.2** — possession of a device to obtain unauthorized computer use
 
 ### What this means for a pentester
+
+> [!WARNING]
+> Running Nmap, Gobuster, Hydra, or any other offensive tool against a target without written authorization is potentially criminal — even if no damage is caused and no data is exfiltrated.
 
 Without **express written authorization**, running any offensive tool against any system you do not own potentially constitutes an indictable offence. Authorization must:
 
@@ -136,6 +142,9 @@ The instructor noted: when operating under a pentest contract, **check whether a
 
 ## NDAs and Contract Scoping — Minimum Clauses
 
+> [!IMPORTANT]
+> A penetration test without a written contract is not a penetration test — it is unauthorized access. The contract protects both the tester and the client.
+
 A defensible pentest contract addresses:
 
 | Clause | Purpose |
@@ -166,6 +175,35 @@ The course emphasized that being a penetration tester requires behaviour that go
 5. **Scope discipline** — if you find something out of scope, document it and stop; do not continue
 
 > "Something can be observed as an illegal activity if you're outside of the bounds of where you're supposed to be." — J. Caldwell, Week 1
+
+---
+
+## Authorization Decision Tree
+
+```mermaid
+flowchart TD
+    Q1["🎯 Do you want to test\na system or network?"]
+    Q1 -->|Yes| Q2["📝 Do you have WRITTEN\nauthorization from the owner?"]
+    Q1 -->|No| SAFE["✅ No action needed"]
+
+    Q2 -->|Yes| Q3["📋 Is the target\nwithin the defined scope?"]
+    Q2 -->|No| STOP["🛑 STOP — Criminal Code s.342.1\nUp to 10 years imprisonment"]
+
+    Q3 -->|Yes| Q4["⏰ Is the current time\nwithin the authorized window?"]
+    Q3 -->|No| STOP
+
+    Q4 -->|Yes| Q5["🔧 Are the techniques you plan\nto use explicitly permitted?"]
+    Q4 -->|No| STOP
+
+    Q5 -->|Yes| PROCEED["✅ PROCEED — Document everything.\nKeep emergency contact accessible."]
+    Q5 -->|No / Unsure| ASK["⚠️ PAUSE — Contact the client\nand get written clarification."]
+    ASK --> Q5
+
+    style STOP fill:#8b0000,stroke:#ff0000,color:#fff
+    style SAFE fill:#006400,stroke:#00ff00,color:#fff
+    style PROCEED fill:#006400,stroke:#00ff00,color:#fff
+    style ASK fill:#b8860b,stroke:#ffd700,color:#fff
+```
 
 ---
 

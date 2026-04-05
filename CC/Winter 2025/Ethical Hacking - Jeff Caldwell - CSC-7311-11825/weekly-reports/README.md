@@ -1,6 +1,9 @@
 # Weekly Reports
 
-Chronological summaries of each course session, with links to CTF walkthroughs and reference pages.
+Chronological summaries of each course session, with links to CTF walkthroughs and reference pages. Each report captures the session topic, lab activities, tools used, and a personal reflection ("Key Takeaway") connecting the week's content to real-world security practice. Reports for weeks with lab work include embedded screenshots from the hands-on exercises.
+
+> [!TIP]
+> **For hiring managers:** Weeks 8, 12, and 13 are the CTF exam weeks — each links to a full walkthrough. For the densest technical content, start with Week 6 (Network Services) or Week 5 (OpenVAS).
 
 | Week | Date | Topic |
 |---|---|---|

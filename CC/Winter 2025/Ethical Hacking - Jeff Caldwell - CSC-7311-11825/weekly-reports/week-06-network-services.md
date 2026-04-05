@@ -6,6 +6,24 @@
 
 The most content-dense regular session of the course. A three-part hands-on study of common network services, how to enumerate them, and how to exploit the misconfigurations commonly found in each.
 
+## Service Attack Decision Tree
+
+```mermaid
+flowchart TD
+    SVC["Discovered\nService"]
+    SVC --> BANNER["Banner grab\n(version string)"]
+    BANNER --> CVE{Known\nCVE?}
+    CVE -->|Yes| EXPLOIT["Exploit\n(Metasploit/manual)"]
+    CVE -->|No| DEFAULT{Default\ncreds?}
+    DEFAULT -->|Yes| LOGIN["Authenticated\naccess"]
+    DEFAULT -->|No| ANON{Anonymous\naccess?}
+    ANON -->|Yes| ENUM["Enumerate\nfiles/shares/data"]
+    ANON -->|No| BRUTE["Brute force\n(Hydra)"]
+    BRUTE --> LOGIN
+    ENUM --> LOOT["Loot creds\nfor lateral move"]
+    LOGIN --> LOOT
+```
+
 ## Topics Covered
 
 ### Part 1 — SMB / Samba
@@ -128,6 +146,8 @@ hydra -l <user> -P rockyou.txt ssh://<target>
 
 > [!TIP]
 > Before reaching for Hydra or an exploit, always try default credentials first. A surprising number of services — especially FTP, MySQL, and Telnet on embedded devices — ship with well-known defaults that are never changed. Five seconds of manual testing can save twenty minutes of brute-forcing.
+
+<!-- markdownlint-disable-next-line MD028 -->
 
 > [!NOTE]
 > Plaintext protocols like Telnet and FTP are largely absent from modern hardened environments, but they remain common on legacy systems, IoT devices, and internal lab networks. Do not skip them in enumeration just because they seem outdated.

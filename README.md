@@ -169,6 +169,10 @@ See [references/legal-and-ethics.md](CC/Winter%202025/Ethical%20Hacking%20-%20Je
 
 **Ross Moravec** · Postgraduate Cybersecurity Certificate candidate, Cambrian College (Sudbury, Ontario). Background spans software development, IT business analysis, project planning, and systems administration. This portfolio is one of a series of course repositories documenting the Fall 2024 – Winter 2025 program.
 
+**Seeking:** a junior penetration tester, SOC analyst, or application security role where I can apply offensive security methodology to defend enterprise systems.
+
+📫 **Contact:** [LinkedIn](https://www.linkedin.com/in/rossmoravec/) · [GitHub](https://github.com/RossMora)
+
 Companion portfolios:
 
 - [010 — Intro to Cybersecurity (CSC-7301)](../010-Intro-To-Cybersecurity-Csc-7301-Fall-2024-Instructor-Maryam-Ahmed)

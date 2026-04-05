@@ -1,18 +1,14 @@
 # Scripts
 
-Student-authored automation from CSC-7311 labs. When populated, includes shell scripts, Python helpers, and NSE scripts used during enumeration and exploitation.
+Student-authored automation from CSC-7311 labs. Includes shell scripts and Python helpers used during CTF enumeration and exploitation.
 
 ## Inventory
 
-Currently a placeholder — the course labs did not require bespoke automation beyond combining existing tools (Nmap, Gobuster, Hydra). Small helpers that emerged during the CTFs included:
-
-| Script | Purpose | Source |
-|---|---|---|
-| `fsocity_dedupe.sh` | Deduplicate fsocity.dic for Mr. Robot WP brute-force | Week 12 |
-| `ctf_recon.sh` | Standardized Nmap + Gobuster + whatweb one-shot | Personal helper |
-| `rot13_decode.py` | Quick ROT13 round-trip for .info.txt files | Week 13 |
-
-These will be added here as they are extracted from the source DOCX submissions.
+| Script | Purpose | Source | Language |
+|---|---|---|---|
+| [`fsocity_dedupe.sh`](fsocity_dedupe.sh) | Deduplicate fsocity.dic for Mr. Robot WP brute-force (858k → 11.5k lines) | Week 12 | Bash |
+| [`ctf_recon.sh`](ctf_recon.sh) | Standardized Nmap + Gobuster + whatweb initial recon one-shot | Personal helper | Bash |
+| [`rot13_decode.py`](rot13_decode.py) | Quick ROT13 round-trip for CTF hint files (.info.txt on Boiler) | Week 13 | Python 3 |
 
 ## Conventions
 

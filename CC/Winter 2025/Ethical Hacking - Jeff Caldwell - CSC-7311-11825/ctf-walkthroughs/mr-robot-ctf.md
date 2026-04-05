@@ -136,7 +136,10 @@ wc -l fsocity_unique.dic   # ~11,450 unique lines
 > [!NOTE]
 > Deduplication reduced the wordlist from ~858k to ~11.5k lines — a **75× speedup** for no loss of coverage. Always deduplicate before brute-forcing.
 
-*Evidence: robots.txt output and key-1-of-3.txt contents (demonstrated live during lab; source DOCX did not embed per-step screenshots for this room).*
+*Evidence: robots.txt output and key-1-of-3.txt contents demonstrated live during the lab session.*
+
+> [!NOTE]
+> **Screenshot coverage:** The original DOCX submission for this room contained fewer per-step screenshots than the Pickle Rick or Boiler CTF submissions. The walkthrough below compensates with detailed command output transcriptions and step-by-step reasoning. Where screenshots are available, they are embedded; otherwise, evidence is documented textually with the same tool → reason → expected → actual rigor.
 
 ---
 
@@ -344,11 +347,19 @@ nmap --script /tmp/shell.nse
 
 ## Step 9 — Third Key
 
+**Tool:** Linux shell primitives
+**Reason:** with root access obtained, read the final key from root's home directory.
+
 ```bash
 cat /root/key-3-of-3.txt
 ```
 
-**Third key captured. Room complete.**
+**Expected outcome:** third and final key readable from `/root/`.
+
+**Actual outcome:** key retrieved successfully. All three keys captured — room complete.
+
+> [!TIP]
+> The three-key structure mirrors real engagement milestones: initial access (Key 1 — information disclosure), user-level compromise (Key 2 — lateral movement), and root-level compromise (Key 3 — full system control). Each escalation required a different technique.
 
 ---
 

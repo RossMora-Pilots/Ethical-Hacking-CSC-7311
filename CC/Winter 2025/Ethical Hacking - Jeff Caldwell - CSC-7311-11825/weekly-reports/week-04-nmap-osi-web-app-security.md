@@ -6,6 +6,28 @@
 
 Deep-dive on **Nmap** as the foundational scanning tool, an OSI-model refresher oriented toward attack-surface thinking, and an introduction to web application security that established the vocabulary used throughout the remaining CTFs.
 
+## Nmap Scan Type Decision Tree
+
+```mermaid
+flowchart TD
+    START["Target identified"]
+    START --> ROOT{Running as\nroot?}
+    ROOT -->|Yes| SYN["-sS SYN stealth\n(default, fast)"]
+    ROOT -->|No| CONNECT["-sT TCP connect\n(no raw sockets)"]
+    SYN --> SVC{Need service\nversions?}
+    CONNECT --> SVC
+    SVC -->|Yes| VER["-sV version detection\n+ -sC default scripts"]
+    SVC -->|No| PORTS{All ports?}
+    VER --> PORTS
+    PORTS -->|Yes| FULL["-p- all 65,535"]
+    PORTS -->|No| TOP["-p 1-1000 or\n--top-ports 100"]
+    FULL --> UDP{UDP too?}
+    TOP --> UDP
+    UDP -->|Yes| UDPS["-sU --top-ports 50"]
+    UDP -->|Skip| OUT["-oN output.txt"]
+    UDPS --> OUT
+```
+
 ## Topics Covered
 
 ### 1. Further Nmap (Beyond Basic Scanning)
