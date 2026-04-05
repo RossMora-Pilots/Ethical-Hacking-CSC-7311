@@ -27,6 +27,7 @@ Building on the introductory Nmap exposure, this session covered:
 | `--script` | Specific NSE script invocation |
 
 **Example canonical command:**
+
 ```bash
 sudo nmap -sC -sV -p- -oN nmap_full.txt <target>
 ```
@@ -50,6 +51,7 @@ Revisited the 7 layers with a penetration-tester lens: **which attacks live at w
 ### 3. Reconnaissance Techniques (Applied)
 
 Hands-on practice with:
+
 - WHOIS lookups on student-chosen targets
 - DNS enumeration (`dig`, `nslookup`, `dnsrecon`)
 - Subdomain discovery

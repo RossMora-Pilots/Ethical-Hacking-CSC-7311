@@ -9,11 +9,12 @@ The final week combined two graded items: a **practical final exam** (TryHackMe 
 ## Part 1 — Final Exam: TryHackMe Boiler CTF
 
 ### Objective
+
 End-to-end compromise: from Nmap scan → user flag → root flag, with full documentation of every step.
 
 ### Attack Path (Summary)
 
-```
+```text
 Nmap: 21/FTP, 80/HTTP, 10000/Webmin, 55007/SSH
   ↓
 Anon FTP → .info.txt (ROT13 red herring)

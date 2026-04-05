@@ -3,6 +3,7 @@
 Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff Caldwell at Cambrian College (Postgraduate Cybersecurity Certificate, Winter 2025 term). Mirrors academic structure under `CC/` with weekly writeups, CTF walkthroughs, tool references, and evidence indexes.
 
 ## Now
+
 - [x] Establish course repo structure (README, docs, CC/, assignments/, screenshots/)
 - [x] Align conventions with Pilot 008/009/010 (naming, labels, evidence)
 - [x] Author employer-facing README with course overview, outcomes, evidence pointers
@@ -26,6 +27,7 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 - [ ] Register pilot in portfolio index and render docs index
 
 ## Next
+
 - [ ] Add repo topics: `cybersecurity`, `ethical-hacking`, `penetration-testing`, `tryhackme`, `ctf`, `kali-linux`, `nmap`, `owasp`
 - [x] Capture screenshots from source DOCX submissions and place in `screenshots/` with `wkNN_topic_index.png` naming (67 unique PNGs extracted)
 - [x] Build auto-generated EVIDENCE_INDEX.md from screenshot inventory
@@ -35,6 +37,7 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 - [ ] Extract student-authored scripts (fsocity_dedupe.sh, ctf_recon.sh, rot13_decode.py) to scripts/ directory
 
 ## Later
+
 - [ ] Optional GitHub Pages landing with CTF writeup gallery
 - [ ] Add architecture diagrams of lab network (Kali attacker + TryHackMe target)
 - [ ] Record learning reflection and career-application narrative
@@ -42,6 +45,7 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 - [ ] Add MITRE ATT&CK technique mapping table per walkthrough
 
 ## Milestones (Definition of Done)
+
 - [x] Course repo structure finalized and documented
 - [x] All 13 weeks of course content represented (weekly reports + CTF walkthroughs + references)
 - [x] Midterm and Final walkthroughs published with full tool inventory and outcomes
@@ -50,6 +54,7 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 - [ ] Public repository live, branch protection enabled, secret scanning on
 
 ## Runbook
+
 - PM loop: `scripts/pm.sh run` (auto-commit artifacts); `PM_PUSH=1 scripts/pm.sh all`
 - Issues (optional): `scripts/pm.sh sync` (requires `gh` + `GH_TOKEN`)
 - Roadmap parse only: `python scripts/roadmap/parse_roadmap.py ROADMAP.md --out artifacts/roadmap.json`

@@ -35,6 +35,7 @@ Per-service enumeration techniques:
 | **Hashcat** | GPU-accelerated hash cracking |
 
 **Canonical Hydra invocation:**
+
 ```bash
 hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://<target>
 ```
@@ -46,6 +47,7 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://<target>
 **OpenVAS** (now branded Greenbone Community Edition) is an open-source vulnerability scanner comparable to commercial Nessus.
 
 **Installation:**
+
 ```bash
 sudo apt install openvas
 sudo gvm-setup
@@ -55,12 +57,14 @@ sudo gvm-start
 **Web UI:** `https://localhost:9392/`
 
 **Setup steps:**
+
 1. Create scan **target** (IP or range)
 2. Create **task** (associate target with scan config)
 3. Run task
 4. Review **report** — findings by severity, CVSS score, description, remediation
 
 **Scan configurations:**
+
 - **Full and fast** — default for most engagements
 - **Full and deep** — more thorough, slower
 - **Discovery** — service inventory only
@@ -78,6 +82,7 @@ The exercise included interpreting an OpenVAS report:
 ## Lab Deliverable
 
 Combined deliverable covered:
+
 - Hands-on enumeration against lab targets (probably TryHackMe enumeration rooms)
 - Brute-force demonstration with Hydra
 - OpenVAS installation, scan execution, report review

@@ -3,8 +3,8 @@
 > Postgraduate Cybersecurity Certificate · Cambrian College · Winter 2025
 > Instructor: **Jeff Caldwell** · Course Code: **CSC-7311-11825**
 
-![Markdown Lint](https://github.com/RossMora/409-ethical-hacking/actions/workflows/markdownlint.yml/badge.svg)
-![Gitleaks](https://github.com/RossMora/409-ethical-hacking/actions/workflows/gitleaks.yml/badge.svg)
+[![Markdown Lint](https://github.com/RossMora/409-ethical-hacking/actions/workflows/markdownlint.yml/badge.svg)](https://github.com/RossMora/409-ethical-hacking/actions/workflows/markdownlint.yml)
+[![Gitleaks](https://github.com/RossMora/409-ethical-hacking/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/RossMora/409-ethical-hacking/actions/workflows/gitleaks.yml)
 
 A public, employer-facing portfolio documenting a 13-week offensive security course: methodology, reconnaissance, enumeration, exploitation, post-exploitation, and reporting. All offensive work targeted intentionally vulnerable lab environments on TryHackMe; nothing here was aimed at production infrastructure.
 
@@ -13,16 +13,19 @@ A public, employer-facing portfolio documenting a 13-week offensive security cou
 ## Quick Start for Hiring Managers
 
 **If you have 5 minutes:**
+
 - Skim [Key Achievements](#key-achievements) below
 - Open the [Boiler CTF Final Exam walkthrough](CC/Winter%202025/Ethical%20Hacking%20-%20Jeff%20Caldwell%20-%20CSC-7311-11825/ctf-walkthroughs/final-boiler-ctf.md)
 - Check the [Tools & Techniques](#tools--techniques-mastered) section
 
 **If you have 15 minutes:**
+
 - Read the full course [README](CC/Winter%202025/Ethical%20Hacking%20-%20Jeff%20Caldwell%20-%20CSC-7311-11825/README.md)
 - Review the [Midterm: Pickle Rick CTF](CC/Winter%202025/Ethical%20Hacking%20-%20Jeff%20Caldwell%20-%20CSC-7311-11825/ctf-walkthroughs/midterm-pickle-rick.md)
 - Read the [OWASP Top 10 reference](CC/Winter%202025/Ethical%20Hacking%20-%20Jeff%20Caldwell%20-%20CSC-7311-11825/references/owasp-top-10.md)
 
 **If you have 30 minutes:**
+
 - Walk the weekly reports chronologically ([weekly-reports/](CC/Winter%202025/Ethical%20Hacking%20-%20Jeff%20Caldwell%20-%20CSC-7311-11825/weekly-reports/))
 - Review both CTF walkthroughs (Pickle Rick + Boiler) and compare approaches
 - Read the [methodology](CC/Winter%202025/Ethical%20Hacking%20-%20Jeff%20Caldwell%20-%20CSC-7311-11825/references/methodology.md) primer
@@ -46,6 +49,7 @@ A public, employer-facing portfolio documenting a 13-week offensive security cou
 ## Tools & Techniques Mastered
 
 ### Reconnaissance & Enumeration
+
 - **Nmap** — port scanning, service/version detection, default scripts (`-sC -sV -p-`), aggressive scans (`-A`, `-T4`), live host discovery
 - **Gobuster** — directory brute-forcing with `dirb/common.txt`, `directory-list-2.3-medium.txt`, extensions `-x php,html,txt`
 - **Nikto** — web server vulnerability surface scanning
@@ -53,22 +57,26 @@ A public, employer-facing portfolio documenting a 13-week offensive security cou
 - **Anonymous FTP** — banner grabbing, file retrieval, ROT13 decoding of hidden notes
 
 ### Vulnerability Assessment
+
 - **OpenVAS / Greenbone** — authenticated vulnerability scanning
 - **JoomScan** — Joomla CMS vulnerability scanning (OWASP project)
 - **Sar2HTML RCE (CVE-like)** — command injection via `plot=` parameter
 
 ### Exploitation
+
 - **Command injection** via web parameters
 - **Credential discovery** in HTML comments, `robots.txt`, log files, shell scripts
 - **Web portal authentication bypass & abuse** (Pickle Rick)
 - **Shell upgrades** (reverse shells → interactive PTY via `python -c 'import pty'`)
 
 ### Privilege Escalation
+
 - **sudo -l** enumeration
 - **SUID binary abuse** via GTFOBins (notably `/usr/bin/find` on Boiler CTF)
 - **Sensitive file discovery** (`.secret`, `backup.sh`, shell scripts leaking credentials)
 
 ### Social Engineering & Physical
+
 - **Phishing analysis** (indicators: sender spoofing, header anomalies, payload crafting)
 - **Wireless reconnaissance** — Wi-Fi Pineapple demo, rogue AP concepts
 - **RF / sub-GHz** — Flipper Zero demo, RFID/NFC cloning concepts
@@ -77,7 +85,7 @@ A public, employer-facing portfolio documenting a 13-week offensive security cou
 
 ## Repository Navigation
 
-```
+```text
 409-Ethical-Hacking/
 ├── README.md                                    ← you are here
 ├── ROADMAP.md                                   ← project tracking
@@ -162,6 +170,7 @@ See [references/legal-and-ethics.md](CC/Winter%202025/Ethical%20Hacking%20-%20Je
 **Ross Moravec** · Postgraduate Cybersecurity Certificate candidate, Cambrian College (Sudbury, Ontario). Background spans software development, IT business analysis, project planning, and systems administration. This portfolio is one of a series of course repositories documenting the Fall 2024 – Winter 2025 program.
 
 Companion portfolios:
+
 - [010 — Intro to Cybersecurity (CSC-7301)](../010-Intro-To-Cybersecurity-Csc-7301-Fall-2024-Instructor-Maryam-Ahmed)
 - [008 — Cybersecurity Network Defense](../008-Cybersecurity-Network-Defense-Portfolio)
 - [009 — Course Repository Template & Guidelines](../009-Course-Repository-Template-and-Guidelines)

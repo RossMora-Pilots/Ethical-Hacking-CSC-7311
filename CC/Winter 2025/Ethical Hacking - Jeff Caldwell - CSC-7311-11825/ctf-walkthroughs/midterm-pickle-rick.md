@@ -70,11 +70,13 @@ This walkthrough follows the canonical penetration-testing lifecycle:
 **Reason:** identify open ports and running services as the foundation for all subsequent activity.
 
 **Command:**
+
 ```bash
 nmap -A -T4 -p- 10.10.13.213 -v -oN results
 ```
 
 **Flags:**
+
 - `-A` — enable OS detection, version detection, script scanning, and traceroute
 - `-T4` — aggressive timing (safe against CTF targets)
 - `-p-` — scan all 65,535 ports (no assumptions about service placement)
@@ -84,6 +86,7 @@ nmap -A -T4 -p- 10.10.13.213 -v -oN results
 **Expected outcome:** discover HTTP (80/tcp) and SSH (22/tcp) services.
 
 **Actual outcome:**
+
 - **22/tcp SSH** — open, but no credentials yet
 - **80/tcp HTTP** — open, a web application is running
 - No other open ports of interest
@@ -101,6 +104,7 @@ nmap -A -T4 -p- 10.10.13.213 -v -oN results
 **Reason:** HTML comments and inline scripts routinely leak information the developer didn't intend the user to see.
 
 **Action:**
+
 1. Navigate to `http://10.10.13.213`
 2. Right-click → View Page Source
 3. Search for comments and hidden elements
@@ -109,7 +113,7 @@ nmap -A -T4 -p- 10.10.13.213 -v -oN results
 
 **Actual outcome:** a username was visible in an HTML comment:
 
-```
+```text
 Username: R1ckRul3s
 ```
 
@@ -126,6 +130,7 @@ Username: R1ckRul3s
 **Reason:** `robots.txt` is a crawler directive file and is frequently used as a dumping ground for paths the developer assumes won't be discovered.
 
 **Command:**
+
 ```bash
 curl http://10.10.13.213/robots.txt
 ```
@@ -134,7 +139,7 @@ curl http://10.10.13.213/robots.txt
 
 **Actual outcome:** the file contained a single string that proved to be a password:
 
-```
+```text
 Wubbalubbadubdub
 ```
 
@@ -150,6 +155,7 @@ Wubbalubbadubdub
 **Reason:** the root page doesn't expose a login form. Directory enumeration finds hidden admin interfaces.
 
 **Commands:**
+
 ```bash
 gobuster dir -u http://10.10.13.213 \
   -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt \
@@ -159,6 +165,7 @@ nikto -host http://10.10.13.213
 ```
 
 **Flag explanation:**
+
 - `-w` — wordlist to brute-force directory / filenames
 - `-x php,html,txt` — test each candidate with these extensions
 
@@ -180,6 +187,7 @@ nikto -host http://10.10.13.213
 **Reason:** use the credentials discovered in Steps 2 & 3 against the login form discovered in Step 4.
 
 **Action:**
+
 1. Navigate to `http://10.10.13.213/portal.php`
 2. Enter `Username: R1ckRul3s`
 3. Enter `Password: Wubbalubbadubdub`
@@ -203,6 +211,7 @@ nikto -host http://10.10.13.213
 **Reason:** enumerate files in the working directory and read the candidate file.
 
 **Commands issued through the web panel:**
+
 ```bash
 ls -a
 less Sup3rS3cretPickl3Ingred.txt
@@ -226,6 +235,7 @@ less Sup3rS3cretPickl3Ingred.txt
 **Reason:** second ingredient not in the web root — enumerate other user home directories.
 
 **Commands:**
+
 ```bash
 ls -a /home/rick
 sudo less "/home/rick/second ingredients"
@@ -233,7 +243,7 @@ sudo less "/home/rick/second ingredients"
 
 **Expected outcome:** file in rick's home directory, readable with sudo.
 
-**Actual outcome:** file discovered (noting the **literal space** in the filename — required escaping with `\ ` or quoting). `cat` still disabled; `sudo less` worked, confirming the www-data user has sudo access.
+**Actual outcome:** file discovered (noting the **literal space** in the filename — required escaping with `\` or quoting). `cat` still disabled; `sudo less` worked, confirming the www-data user has sudo access.
 
 **Finding:** *Second ingredient retrieved.* Also revealed: the web-panel user has broader sudo access than typical — a classic misconfiguration.
 
@@ -248,6 +258,7 @@ sudo less "/home/rick/second ingredients"
 **Reason:** confirm full sudo capabilities before attempting a root-read.
 
 **Commands:**
+
 ```bash
 sudo -l
 sudo ls -a /root
@@ -255,7 +266,8 @@ sudo less /root/3rd.txt
 ```
 
 **`sudo -l` output (paraphrased):**
-```
+
+```text
 User www-data may run the following commands on the target:
     (ALL) NOPASSWD: ALL
 ```
@@ -281,6 +293,7 @@ Submitted three ingredients via TryHackMe's room interface. Room marked Complete
 ![All three ingredients confirmed](../screenshots/wk08_pickle_rick_22.png)
 ![Room progress 100%](../screenshots/wk08_pickle_rick_23.png)
 ![Room completion screen](../screenshots/wk08_pickle_rick_24.png)
+![Final room summary](../screenshots/wk08_pickle_rick_25.png)
 
 ---
 
@@ -350,4 +363,4 @@ If this were a real engagement, the following remediation would be recommended:
 
 ---
 
-_Walkthrough back-reference:_ [Course README](../README.md) · [Final Exam: Boiler CTF](final-boiler-ctf.md) · [Week 12: Mr. Robot CTF](mr-robot-ctf.md)
+*Walkthrough back-reference:* [Course README](../README.md) · [Final Exam: Boiler CTF](final-boiler-ctf.md) · [Week 12: Mr. Robot CTF](mr-robot-ctf.md)

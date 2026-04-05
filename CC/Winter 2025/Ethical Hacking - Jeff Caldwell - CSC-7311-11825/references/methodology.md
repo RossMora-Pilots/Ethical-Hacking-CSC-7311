@@ -89,6 +89,7 @@ flowchart LR
 | Published exploits | Searchsploit, Exploit-DB, Metasploit modules |
 
 **Class examples exercised:**
+
 - Pickle Rick — credentials in HTML comments + `robots.txt` → authenticated web shell
 - Boiler CTF — Sar2HTML `plot=` command injection → log file credentials → SSH
 - Mr Robot — WordPress enumeration → credential brute-force → PHP reverse shell
@@ -134,6 +135,7 @@ A good pentest report includes:
 - **Appendices** — raw tool output, screenshots, CVE references
 
 Every submission in this course followed a **step-by-step walkthrough** format:
+
 1. Tool used
 2. Reason for using the tool
 3. Expected outcome
@@ -169,4 +171,4 @@ The line that distinguishes authorized work from a criminal offence is a **signe
 
 ---
 
-_Previous page:_ [README](../README.md) · _Next page:_ [Cyber Kill Chain](cyber-kill-chain.md)
+*Previous page:* [README](../README.md) · *Next page:* [Cyber Kill Chain](cyber-kill-chain.md)

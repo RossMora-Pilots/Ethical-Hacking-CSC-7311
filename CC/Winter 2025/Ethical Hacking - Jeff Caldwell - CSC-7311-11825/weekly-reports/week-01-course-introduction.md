@@ -9,6 +9,7 @@ The opening session covered administrative orientation, established the ethical 
 ## Topics Covered
 
 ### 1. Course Administration
+
 - Instructor introduction (Jeff Caldwell, 3+ years at Cambrian)
 - Schedule: Mondays 17:30–20:30, Room 1215 + Zoom
 - Grading structure: 6 labs + 4 activities + 4 quizzes + midterm + final
@@ -31,6 +32,7 @@ The opening session covered administrative orientation, established the ethical 
 Detailed treatment: [references/legal-and-ethics.md](../references/legal-and-ethics.md)
 
 ### 3. Penetration-Testing Methodology
+
 - Why methodology matters (consistency, repeatability, verifiability, gap coverage)
 - Six-phase lifecycle: Recon → Enum → Access → Persistence → Cover Tracks → Report
 - Framework landscape: **Cyber Kill Chain** (primary), **MITRE ATT&CK**, **PTES**, **OSSTMM**
@@ -39,6 +41,7 @@ Detailed treatment: [references/legal-and-ethics.md](../references/legal-and-eth
 Detailed treatment: [references/methodology.md](../references/methodology.md)
 
 ### 4. Lab Environment Setup
+
 Students installed:
 
 - **VirtualBox** (hypervisor)
@@ -46,6 +49,7 @@ Students installed:
 - **TryHackMe account** (free tier)
 
 Alternate paths supported:
+
 - VMware ESXi instead of VirtualBox
 - Paid TryHackMe Attack Box for browser-only access
 
@@ -69,9 +73,9 @@ Instructor explicitly reminded students that CSC-7311 is **not** an intro to Lin
 ## Key Quotes
 
 > "You get to learn how to hack into computers — just do it legally, basically."
-
+>
 > "You are going to jail for that kind of thing. Especially these days."
-
+>
 > "Something can be observed as an illegal activity if you're outside of the bounds of where you're supposed to be."
 
 ## References from this Session

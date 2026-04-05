@@ -28,16 +28,19 @@ When testing an **internal network** (post-foothold), the tester must identify w
 | `--disable-arp-ping` | When ARP would be used by default but is undesired |
 
 **Canonical subnet sweep:**
+
 ```bash
 sudo nmap -sn 10.10.0.0/24
 ```
 
 **ARP-only (fastest on local network):**
+
 ```bash
 sudo nmap -sn -PR 192.168.1.0/24
 ```
 
 **Stealth discovery with custom ports:**
+
 ```bash
 sudo nmap -Pn -n -PS80,443,22,445 -sS --min-rate 1000 10.10.0.0/24
 ```
@@ -71,12 +74,14 @@ Source file: `Week 11/A00322717 Ross Moravec - Live Host Scanning - Nmap Live Ho
 ### Attack Demonstrations
 
 **Wi-Fi Pineapple (Hak5):**
+
 - Portable rogue-AP device
 - Impersonates any SSID the victim device remembers (PineAP)
 - Runs captive portal to harvest credentials
 - Demonstrated in-class with a volunteer device
 
 **Flipper Zero:**
+
 - Multi-function RF tool
 - Demonstrated: RFID card reading/cloning, sub-GHz signal capture/replay (garage doors, TV remotes)
 - NOT a magic "hack anything" tool — capability bounded by the protocols supported

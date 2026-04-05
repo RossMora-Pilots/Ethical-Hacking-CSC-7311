@@ -39,30 +39,37 @@ flowchart TD
 > **Break the chain at any step to break the attack.** The defender only needs to succeed at one phase; the attacker must succeed at all seven. This is why defense-in-depth works.
 
 ### 1. Reconnaissance
+
 **Attacker activity:** research the target — employees, technology stack, public-facing systems, business context.
 **Defender response:** monitor access to sensitive public data; scrub metadata; limit social-media over-disclosure; alert on reconnaissance scanning.
 
 ### 2. Weaponization
+
 **Attacker activity:** pair an exploit with a deliverable payload — e.g., malicious macro in a Word document, LNK file with encoded PowerShell, custom C2 beacon.
 **Defender response:** cannot be observed directly (happens on attacker infrastructure); defended against via payload detonation analysis (sandbox), signature generation, YARA rules.
 
 ### 3. Delivery
+
 **Attacker activity:** transmit the weaponized payload — phishing email, watering-hole website, USB drop, supply-chain injection.
 **Defender response:** email filtering, URL rewriting, attachment sandboxing, user awareness training.
 
 ### 4. Exploitation
+
 **Attacker activity:** the payload triggers — e.g., exploit a CVE in a PDF reader; user enables macros; user clicks a malicious link.
 **Defender response:** patching, EDR behavioural detection, application allowlisting, macro blocking.
 
 ### 5. Installation
+
 **Attacker activity:** install persistence — service, scheduled task, registry run key, crontab, systemd unit.
 **Defender response:** EDR (monitors process creation, autoruns), HIDS, integrity monitoring, endpoint baselines.
 
 ### 6. Command & Control (C2)
+
 **Attacker activity:** establish a channel back to attacker infrastructure — HTTPS beacon, DNS tunneling, Telegram bot, legitimate-looking cloud service.
 **Defender response:** egress filtering, DNS sinkholes, anomaly detection, TLS inspection, threat intel feeds.
 
 ### 7. Actions on Objectives
+
 **Attacker activity:** achieve the mission — data exfiltration, ransomware deployment, lateral movement, privilege escalation, destruction.
 **Defender response:** DLP, segmentation, backup integrity, honey tokens, incident response.
 

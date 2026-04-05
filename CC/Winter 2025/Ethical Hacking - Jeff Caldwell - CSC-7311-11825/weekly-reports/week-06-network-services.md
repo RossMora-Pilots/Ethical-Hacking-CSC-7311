@@ -14,6 +14,7 @@ The most content-dense regular session of the course. A three-part hands-on stud
 **Default ports:** 139/tcp (NetBIOS), 445/tcp (SMB-over-TCP)
 
 **Enumeration:**
+
 ```bash
 nmap -p 139,445 --script smb-enum-shares,smb-enum-users <target>
 enum4linux -a <target>
@@ -23,18 +24,21 @@ smbmap -H <target>
 ```
 
 **Common findings:**
+
 - Null sessions (SMB without authentication)
 - Readable shares exposing sensitive files
 - Guest access to sensitive shares
 - SMBv1 enabled (EternalBlue / MS17-010)
 
 **Exploitation path — anonymous share browsing:**
+
 ```bash
 smbclient //<target>/shareName -U ''
 # List files, get/put
 ```
 
 **Exploitation path — EternalBlue:**
+
 ```bash
 msfconsole
 use exploit/windows/smb/ms17_010_eternalblue
@@ -47,6 +51,7 @@ exploit
 **Telnet (23/tcp)** — plaintext remote shell. Deprecated but still found on legacy devices.
 
 **Attack surface:**
+
 - Banner grabbing for version/device fingerprinting
 - Default credentials (often unchanged on network devices)
 - Packet capture reveals credentials in plaintext
@@ -59,6 +64,7 @@ telnet <target> 23
 **FTP (21/tcp)** — file transfer protocol. Plaintext credentials by default.
 
 **Attack surface:**
+
 - Anonymous login (common misconfig)
 - Credential discovery via brute-force
 - Writable directories enabling malicious uploads
@@ -80,6 +86,7 @@ nmap -sV -p 21 <target>
 **MySQL (3306/tcp)** — database protocol.
 
 **Attack surface:**
+
 - Remote access enabled (should typically be loopback only)
 - Default credentials (`root:(blank)` or `root:root`)
 - SQL injection from web apps granting MySQL query execution
@@ -93,6 +100,7 @@ mysql -h <target> -u root -p
 **SSH (22/tcp)** — secure shell.
 
 **Attack surface:**
+
 - Weak credentials (brute-forceable)
 - Key-based auth with reused/compromised keys
 - Older versions with protocol vulnerabilities

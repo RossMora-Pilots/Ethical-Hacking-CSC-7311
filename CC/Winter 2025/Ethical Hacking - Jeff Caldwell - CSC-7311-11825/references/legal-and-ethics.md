@@ -11,7 +11,9 @@ The single most important distinction in this course: **authorized penetration t
 Canada criminalizes unauthorized computer access primarily through:
 
 ### s. 342.1 — Unauthorized Use of a Computer
+
 Prohibits:
+
 - Fraudulently obtaining computer services
 - Intercepting computer functions
 - Using / obtaining a computer system to commit an offence
@@ -20,16 +22,20 @@ Prohibits:
 Maximum penalty: **10 years imprisonment** (indictable offence).
 
 ### s. 430(1.1) — Mischief to Data
+
 Prohibits willfully:
+
 - Destroying, altering, rendering meaningless, or obstructing data
 - Denying access to data by authorized persons
 
 Maximum penalty: **life imprisonment** if actual danger to life; **10 years** otherwise.
 
 ### s. 184 — Interception of Private Communications
+
 Covers packet capture, wiretapping, and eavesdropping without consent.
 
 ### Supporting sections
+
 - **s. 326** — theft of telecommunications service
 - **s. 327** — possession of a device to obtain telecommunications service
 - **s. 342.2** — possession of a device to obtain unauthorized computer use

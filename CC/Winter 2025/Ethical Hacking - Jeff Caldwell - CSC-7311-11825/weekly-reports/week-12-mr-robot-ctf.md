@@ -8,7 +8,7 @@ Full hands-on CTF exercise against a WordPress-based target themed on the USA Ne
 
 ## Attack Path (Summary)
 
-```
+```text
 Nmap 80/tcp
    ↓
 robots.txt → key-1-of-3.txt + fsocity.dic
@@ -63,4 +63,4 @@ This lab consolidated the techniques from Weeks 4 (Nmap/web security), 5 (enumer
 
 ---
 
-_Previous:_ [Week 11](week-11-live-host-scanning-wireless.md) · _Next:_ [Week 13 — Final Exam](week-13-final-exam-boiler-ctf.md)
+*Previous:* [Week 11](week-11-live-host-scanning-wireless.md) · *Next:* [Week 13 — Final Exam](week-13-final-exam-boiler-ctf.md)

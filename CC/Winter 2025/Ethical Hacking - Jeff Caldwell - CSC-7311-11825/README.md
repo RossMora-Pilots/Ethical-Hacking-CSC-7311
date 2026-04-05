@@ -69,11 +69,13 @@ Weeks 7 (reading week) and 9 (instructor catch-up) had no graded deliverables.
 ## Major Artifacts
 
 ### CTF Walkthroughs (full step-by-step)
+
 - **[Pickle Rick — Midterm](ctf-walkthroughs/midterm-pickle-rick.md)** (web exploitation, command injection, sudo privesc) — 106 paragraphs, 25 screenshots in source
 - **[Mr. Robot CTF](ctf-walkthroughs/mr-robot-ctf.md)** (WordPress enumeration, exploitation)
 - **[Boiler CTF — Final](ctf-walkthroughs/final-boiler-ctf.md)** (FTP anon, Joomla, Sar2HTML RCE, SSH, SUID `find` privesc) — 163 paragraphs, 21 screenshots
 
 ### Reference Material (study companions)
+
 - **[OWASP Top 10](references/owasp-top-10.md)** — threat catalog with examples and mitigations
 - **[Methodology](references/methodology.md)** — full pentest lifecycle (recon → reporting)
 - **[Cyber Kill Chain](references/cyber-kill-chain.md)** — Lockheed Martin 7-step model
@@ -85,28 +87,34 @@ Weeks 7 (reading week) and 9 (instructor catch-up) had no graded deliverables.
 ## Skills Demonstrated
 
 ### Reconnaissance & Enumeration
+
 `nmap -sC -sV -p-` · `nmap -A -T4 -p-` · Nmap NSE scripts · `gobuster dir` with `dirb/common.txt` and `directory-list-2.3-medium.txt` · Nikto · Wappalyzer-style fingerprinting · anonymous FTP banner grabbing
 
 ### Vulnerability Assessment
+
 OpenVAS/Greenbone authenticated scans · JoomScan against Joomla 3.9.10 · CVE research workflow · Sar2HTML 3.2.1 RCE identification
 
 ### Exploitation
+
 Command injection via `plot=` parameter · web portal credential discovery (HTML comments, `robots.txt`, log files) · authenticated command execution via web panel · Hydra-style brute force concepts
 
 ### Privilege Escalation
+
 `sudo -l` enumeration · SUID binary abuse (`/usr/bin/find -exec /bin/sh -p`) · credential hunting in shell scripts (`backup.sh`) · GTFOBins workflow
 
 ### Evasion & Alternative Paths
+
 `cat` filter bypass via `less` · restricted shell escape techniques · ROT13 decoding of hidden notes · multi-wordlist enumeration strategy
 
 ### Social & Wireless
+
 Phishing email header analysis · payload construction · Wi-Fi Pineapple rogue AP demonstration · Flipper Zero sub-GHz / RFID cloning concepts
 
 ---
 
 ## Lab Environment
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │  Host: Windows laptop                   │
 │  ┌───────────────────────────────────┐  │

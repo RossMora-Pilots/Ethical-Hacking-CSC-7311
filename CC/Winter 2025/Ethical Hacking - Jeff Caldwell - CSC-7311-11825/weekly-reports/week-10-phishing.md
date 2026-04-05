@@ -80,6 +80,7 @@ Phishing simulations are acceptable **only** under written authorization, typica
 ## Lab Deliverable
 
 Two-part combined submission:
+
 - **Part 1:** received phishing email analysis with annotated screenshots identifying indicators
 - **Part 2:** controlled construction demonstration in the course lab environment
 

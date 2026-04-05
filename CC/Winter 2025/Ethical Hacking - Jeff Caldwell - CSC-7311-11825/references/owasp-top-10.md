@@ -13,6 +13,7 @@ The OWASP Top 10 is the most widely referenced web-application risk catalog. It 
 **What it is:** users can access resources or perform actions outside of their intended permissions.
 
 **Typical examples:**
+
 - Parameter tampering: `GET /api/users/123/details` → change `123` to `124`
 - Directory traversal: `GET /download?file=../../../../etc/passwd`
 - JWT token not validated (missing / `alg:none`)
@@ -21,11 +22,13 @@ The OWASP Top 10 is the most widely referenced web-application risk catalog. It 
 - CORS misconfiguration allowing origin spoofing
 
 **Detection techniques:**
+
 - Manual endpoint enumeration → compare authenticated / unauthenticated access
 - Burp Suite "match-and-replace" to swap user IDs
 - Test every CRUD endpoint: can user A read/modify/delete user B's data?
 
 **Mitigations:**
+
 - Deny by default; explicit allow
 - Centralized access control checks
 - Log failures, alert on patterns
@@ -42,6 +45,7 @@ The OWASP Top 10 is the most widely referenced web-application risk catalog. It 
 **What it is:** failures related to cryptography — or absence of it — exposing sensitive data.
 
 **Typical examples:**
+
 - Transmitting credentials / session tokens over HTTP
 - Storing passwords with MD5 / SHA1 / unsalted hashes
 - Weak TLS ciphers (export-grade, RC4, 3DES)
@@ -49,12 +53,14 @@ The OWASP Top 10 is the most widely referenced web-application risk catalog. It 
 - Failing to encrypt data at rest
 
 **Detection techniques:**
+
 - `testssl.sh` for TLS misconfiguration
 - `ssh-audit` for SSH configurations
 - Source-code review for hardcoded secrets (gitleaks, trufflehog)
 - Traffic inspection for clear-text credentials
 
 **Mitigations:**
+
 - Use current recommendations (argon2 / bcrypt / scrypt for passwords; AES-GCM / ChaCha20-Poly1305 for encryption)
 - TLS 1.2 minimum, 1.3 preferred
 - Key management via HSMs, cloud KMS, Vault
@@ -68,6 +74,7 @@ The OWASP Top 10 is the most widely referenced web-application risk catalog. It 
 **What it is:** untrusted input interpreted as code/commands by a downstream interpreter.
 
 **Canonical example (SQL):**
+
 ```sql
 -- Vulnerable query construction
 query = "SELECT * FROM users WHERE username='" + input + "'"
@@ -80,7 +87,8 @@ SELECT * FROM users WHERE username='' OR '1'='1'
 ```
 
 **Canonical example (command):**
-```
+
+```bash
 # Vulnerable endpoint appends user input to shell command
 http://target/page?plot=;id
 
@@ -89,11 +97,13 @@ http://target/page?plot=;id
 ```
 
 **Detection techniques:**
+
 - SQLMap: `sqlmap -u "http://<target>/page?id=1" --batch --dbs`
 - Burp Scanner / OWASP ZAP
-- Manual test payloads: `'`, `"`, `)`, `; `, `||`, backtick
+- Manual test payloads: `'`, `"`, `)`, `;`, `||`, backtick
 
 **Mitigations:**
+
 - Parameterized queries / prepared statements
 - Stored procedures (with care)
 - Input validation (allowlist)
@@ -110,18 +120,21 @@ http://target/page?plot=;id
 **What it is:** flaws introduced by design decisions before any code is written.
 
 **Examples:**
+
 - Password reset flow accepting recovery email with no rate limit
 - Checkout flow that trusts client-side price values
 - Chat system that lets users create channels without a moderation model
 - Multi-step workflow missing state validation between steps
 
 **Detection techniques:**
+
 - Threat modeling: STRIDE, DREAD, PASTA
 - Abuse case analysis
 - Security requirements review
 - Protocol flow inspection
 
 **Mitigations:**
+
 - SSDLC with security gates
 - Threat modeling during design
 - Integration tests for abuse cases
@@ -134,6 +147,7 @@ http://target/page?plot=;id
 **What it is:** insecure defaults, incomplete configurations, overly permissive configurations, verbose error messages, unpatched components.
 
 **Examples:**
+
 - Directory listing enabled on web server
 - Default credentials left in place
 - Debug endpoints in production (`/debug`, `/trace`, Spring Actuator)
@@ -143,6 +157,7 @@ http://target/page?plot=;id
 **Course connection:** Pickle Rick + Boiler both exposed internal info through `robots.txt`, HTML comments, and log files — textbook misconfiguration exposure.
 
 **Mitigations:**
+
 - Hardening guides (CIS Benchmarks)
 - Infrastructure as Code with security checks (tfsec, checkov)
 - Automated configuration scanning
@@ -157,18 +172,21 @@ http://target/page?plot=;id
 **What it is:** running software versions with published CVEs.
 
 **Examples:**
+
 - Joomla 3.9.10 (Boiler CTF) — multiple CVEs
 - Log4j 2.0–2.14.1 (CVE-2021-44228, Log4Shell)
 - Struts 2.3.5–2.3.31 (CVE-2017-5638, Equifax breach)
 - jQuery < 3.5.0 (multiple XSS)
 
 **Detection techniques:**
+
 - Dependency scanning: Snyk, OWASP Dependency-Check, Dependabot, Renovate
 - JoomScan / WPScan for CMS
 - Wappalyzer browser extension
 - Nmap service/version detection
 
 **Mitigations:**
+
 - Software Bill of Materials (SBOM)
 - Automated patching pipelines
 - Version pinning with active maintenance
@@ -183,6 +201,7 @@ http://target/page?plot=;id
 **What it is:** flaws in identity / authentication / session management.
 
 **Examples:**
+
 - Credential stuffing against unprotected login
 - Weak password policies
 - Session IDs in URLs
@@ -191,11 +210,13 @@ http://target/page?plot=;id
 - No account lockout / rate limiting
 
 **Detection techniques:**
+
 - Hydra / Medusa / Burp Intruder
 - Session cookie analysis (entropy, invalidation, Secure/HttpOnly flags)
 - Password policy testing
 
 **Mitigations:**
+
 - MFA by default
 - Password length requirements (NIST: 8 character minimum, no complexity requirement, check against breach corpora)
 - Rate limiting / exponential backoff
@@ -211,6 +232,7 @@ http://target/page?plot=;id
 **What it is:** code and data integrity not validated when they should be.
 
 **Examples:**
+
 - CI/CD pipelines with no integrity checks on dependencies
 - Insecure deserialization allowing RCE via crafted objects
 - Auto-update mechanisms without signature verification
@@ -218,11 +240,13 @@ http://target/page?plot=;id
 - GitHub action pinned to mutable tag (`v1`) instead of commit SHA
 
 **Notable incidents:**
+
 - SolarWinds (2020)
 - event-stream npm package (2018)
 - codecov bash uploader (2021)
 
 **Mitigations:**
+
 - Digital signatures on artifacts
 - Lockfiles committed and reviewed
 - SBOMs with integrity verification
@@ -237,6 +261,7 @@ http://target/page?plot=;id
 **What it is:** attacks are not detected because events aren't captured, aren't forwarded, or aren't analyzed.
 
 **Mitigations:**
+
 - Log authentication events (success + failure)
 - Log access control failures
 - Log server-side input validation failures
@@ -253,7 +278,8 @@ http://target/page?plot=;id
 **What it is:** the server fetches a URL supplied by the attacker, which can be redirected toward internal systems.
 
 **Canonical example (cloud metadata theft):**
-```
+
+```http
 POST /webhook HTTP/1.1
 url=http://169.254.169.254/latest/meta-data/iam/security-credentials/
 ```
@@ -261,6 +287,7 @@ url=http://169.254.169.254/latest/meta-data/iam/security-credentials/
 In AWS: returns IAM role credentials. In Azure / GCP: returns equivalent metadata.
 
 **Mitigations:**
+
 - Allowlist internal URLs, deny by default
 - Network segmentation preventing app → metadata service access
 - IMDSv2 (AWS requires session token on metadata requests)

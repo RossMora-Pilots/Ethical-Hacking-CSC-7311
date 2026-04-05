@@ -3,15 +3,17 @@
 Marker: PROJECT_OK
 
 ## Overview
+
 Purpose: Public portfolio repository for the Ethical Hacking course (CSC-7311) from the Postgraduate Cybersecurity Certificate at Cambrian College (Winter 2025, Instructor: Jeff Caldwell).
 Scope: This directory and all subdirectories.
 
 ---
 
 ## Pre-Flight Awareness Check
+
 Before starting work, run:
 
-```
+```bash
 /mnt/d/pilots/02001-Pilots-Aware-of-Other-Pilots/scripts/start_session.sh "$(basename $PWD)"
 ```
 
@@ -19,7 +21,7 @@ This runs a pre-flight awareness check, searches the 300+ pilot corpus for dupli
 
 For deeper searches:
 
-```
+```bash
 /mnt/d/pilots/02001-Pilots-Aware-of-Other-Pilots/scripts/search_pilots.sh "topic or keyword"
 ```
 
@@ -41,6 +43,7 @@ scripts/pm.sh run
 ---
 
 ## Safety Rules
+
 - Never commit secrets, student IDs, or personally identifying information other than the portfolio owner's name.
 - Never commit raw recordings of classroom sessions or other students' voices.
 - Never publish working exploits targeted at real-world infrastructure — all content must remain scoped to intentionally vulnerable lab targets (TryHackMe rooms, CTF VMs).
