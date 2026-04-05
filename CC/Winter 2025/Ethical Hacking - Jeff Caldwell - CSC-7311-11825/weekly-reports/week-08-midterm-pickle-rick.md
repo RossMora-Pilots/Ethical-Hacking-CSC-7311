@@ -21,6 +21,9 @@ Week 8 was the **practical midterm exam** — a live, invigilated CTF conducted 
 | **Submission** | PDF walkthrough via Moodle by end of session |
 | **Grading** | Step-by-step documentation quality + completion |
 
+> [!TIP]
+> **Time management during CTF exams:** Document each step in real-time — screenshots, commands, and outputs — rather than saving the write-up for the end. Students who capture as they go finish faster because retracing steps from memory wastes more time than it saves. Budget roughly 30% of exam time for documentation.
+
 ## Approach Taken
 
 The midterm applied the six-phase methodology drilled in Weeks 1–6:
@@ -33,6 +36,13 @@ The midterm applied the six-phase methodology drilled in Weeks 1–6:
 6. **sudo -l → NOPASSWD: ALL** → third ingredient from `/root/`
 
 Total time from first Nmap scan to final flag: approximately **45 minutes**.
+
+### Attack Path Diagram
+
+```mermaid
+flowchart LR
+    A["🔍 Nmap\nScan"] --> B["🌐 HTML Source\n(username)"] --> C["🤖 robots.txt\n(password)"] --> D["📁 Gobuster\n(/portal.php)"] --> E["🔑 Login"] --> F["⚡ Command\nExecution"] --> G["👑 sudo\nNOPASSWD"] --> H["🏁 Root\n(3rd ingredient)"]
+```
 
 ## Key Takeaway
 

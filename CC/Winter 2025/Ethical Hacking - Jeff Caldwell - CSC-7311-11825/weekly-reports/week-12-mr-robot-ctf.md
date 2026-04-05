@@ -6,6 +6,9 @@
 
 Full hands-on CTF exercise against a WordPress-based target themed on the USA Network TV show *Mr. Robot*. The room tests the full lifecycle: reconnaissance → CMS enumeration → brute-force → authenticated RCE → reverse shell → privilege escalation — all inside a single contained VM.
 
+> [!NOTE]
+> **WordPress powers ~40% of the public web.** The attack path demonstrated here — theme editor abuse for code execution — is not academic. It is the single most common WordPress compromise vector in the wild, and it works on any WP site where an attacker obtains admin credentials. Understanding this attack path is essential for any security professional.
+
 ## Attack Path (Summary)
 
 ```text
@@ -29,6 +32,8 @@ SUID nmap → nmap --interactive → !sh → root
    ↓
 key-3-of-3.txt
 ```
+
+![Mr. Robot CTF — attack path from initial Nmap scan through WordPress exploitation to root](../screenshots/wk12_mr_robot_01.png)
 
 ## Key Techniques Exercised
 
@@ -60,6 +65,10 @@ This lab consolidated the techniques from Weeks 4 (Nmap/web security), 5 (enumer
 - Full walkthrough: [mr-robot-ctf.md](../ctf-walkthroughs/mr-robot-ctf.md)
 - [Tools](../references/tools.md) — WPScan, John the Ripper, GTFOBins
 - [OWASP Top 10](../references/owasp-top-10.md) — A07 (Auth Failures) and A05 (Misconfiguration)
+
+## Key Takeaway
+
+The Mr. Robot room demonstrated that a single weak password on a CMS admin panel gives an attacker complete code execution on the underlying server. WordPress' theme editor is the single most dangerous feature in the most popular CMS in the world — it turns authenticated admin access into arbitrary PHP execution with zero additional exploits required. The defensive lesson is clear: disable the theme/plugin editor in production (`define('DISALLOW_FILE_EDIT', true)` in `wp-config.php`), enforce strong credentials, and monitor for unexpected file changes.
 
 ---
 

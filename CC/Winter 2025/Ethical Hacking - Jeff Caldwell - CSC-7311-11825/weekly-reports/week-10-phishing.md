@@ -6,6 +6,13 @@
 
 Moved from technical exploitation to **human-layer attacks**. Phishing is the most commonly reported initial-access vector in published incident data and the single highest-ROI attack path for adversaries who want to avoid burning technical exploits.
 
+### Phishing Kill Chain
+
+```mermaid
+flowchart LR
+    RECON["🔍 Target\nResearch"] --> CRAFT["✉️ Payload\nCrafting"] --> DELIVER["📧 Delivery"] --> CLICK["🖱️ User\nAction"] --> HARVEST["🔓 Credential\nCapture"] --> ACCESS["💻 Initial\nAccess"]
+```
+
 ## Part 1 — Phishing Analysis (Defender Lens)
 
 **Goal:** take a received phishing email and decompose it to identify **indicators of phishing**.
@@ -42,6 +49,8 @@ Email headers were read top-to-bottom to trace the message's path:
 - **Static analysis of docs** — `olevba`, `oledump.py` for Office macros; `exiftool` for metadata.
 - **Never enable macros** — if a document prompts to enable content, it is almost certainly malicious.
 
+![Phishing email analysis — identifying indicators of compromise in email headers and body content](../screenshots/wk10_phishing_01.png)
+
 ## Part 2 — Phishing in Action (Attacker Lens — Ethical)
 
 **Goal:** understand how phishing payloads are **constructed** so defenders can predict them. Scoped to lab targets / volunteer accounts only.
@@ -73,6 +82,11 @@ Email headers were read top-to-bottom to trace the message's path:
 6. **Report button** — a one-click mechanism for users to report suspicious email to security team
 7. **Email tagging** — `[EXTERNAL]` prefix on emails from outside the org
 
+![Controlled phishing payload construction in the course lab environment](../screenshots/wk10_phishing_02.png)
+
+> [!WARNING]
+> **Authorization is non-negotiable.** Phishing simulations — even "harmless" credential-harvesting pages — require explicit written authorization from the target organization. Sending a phishing email to an external party without authorization is a criminal offense under Canadian law (Criminal Code s. 380, fraud) regardless of educational intent.
+
 ## Ethical Boundary (Reiterated)
 
 Phishing simulations are acceptable **only** under written authorization, typically within an organization's own security-awareness program. Phishing an external party — even for "educational" purposes — crosses into criminal fraud territory. The course reinforced that every technique in Part 2 exists to make defenders stronger, not to enable unauthorized attacks.
@@ -97,6 +111,10 @@ Source file: `Week 10/A00322717 Ross Moravec Phishing Analysis [PART 1] and Phis
 - [Methodology](../references/methodology.md) — Phase 3 (delivery via social engineering)
 - [Cyber Kill Chain](../references/cyber-kill-chain.md) — Delivery phase
 - [Tools](../references/tools.md)
+
+## Key Takeaway
+
+Phishing is the great equalizer — it doesn't matter how hardened the network is if an employee clicks a link. The defender perspective (Part 1) was more valuable to me than the attacker perspective (Part 2) because detection is genuinely harder than construction. Anyone can clone a login page; recognizing the subtle header anomalies and pretext patterns that distinguish a real phishing email from legitimate correspondence is a skill that takes deliberate practice.
 
 ---
 

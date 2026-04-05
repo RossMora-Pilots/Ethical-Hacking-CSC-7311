@@ -6,6 +6,9 @@
 
 The final week combined two graded items: a **practical final exam** (TryHackMe Boiler CTF, invigilated during class) and an **OWASP Top 10** written deliverable consolidating the web-security vocabulary used across the semester.
 
+> [!TIP]
+> **The final exam tested discipline, not tricks.** The Boiler CTF deliberately includes red herrings (ROT13-encoded text in FTP, rabbit-hole directories). The students who succeeded were the ones who stuck to methodology — enumerate systematically, verify every finding, and don't chase shiny objects.
+
 ## Part 1 — Final Exam: TryHackMe Boiler CTF
 
 ### Objective
@@ -55,6 +58,10 @@ cat /root/root.txt → root flag
 
 `Week 13/A00322717 Ross Moravec - Final Exam - Boiler CTF.docx` (4.5 MB, 163 paragraphs, 21 screenshots) and companion `Week 13/A00322717 Ross Moravec ETH Final Exam.docx` (2.4 MB, 223 paragraphs, 20 screenshots).
 
+![Final exam — Boiler CTF enumeration and exploitation workflow](../screenshots/wk13_eth_final_exam_01.png)
+
+![Final exam — privilege escalation via SUID find binary to root](../screenshots/wk13_eth_final_exam_02.png)
+
 ## Part 2 — OWASP Top 10 Study Companion
 
 A consolidated study deliverable covering the 2021 edition of the OWASP Top 10, with examples and mitigation strategies drawn from the course's practical CTFs.
@@ -77,6 +84,11 @@ A consolidated study deliverable covering the 2021 edition of the OWASP Top 10, 
 ### Full Study Companion
 
 **→ [references/owasp-top-10.md](../references/owasp-top-10.md)**
+
+![OWASP Top 10 (2021 edition) — categories and ranking shifts from 2017](../screenshots/wk13_owasp_top10_01.png)
+
+> [!NOTE]
+> **Three new categories in 2021** — Insecure Design (A04), Software & Data Integrity Failures (A08), and SSRF (A10) — reflect the industry's evolving understanding of where real-world breaches originate. The shift of Injection from #1 to #3 doesn't mean it's less dangerous; it means access control failures are now even more prevalent.
 
 ### Source Submissions
 
@@ -102,6 +114,10 @@ Every skill from Weeks 1–12 was required. The Boiler CTF tests **discipline**,
 - **OWASP companion:** [owasp-top-10.md](../references/owasp-top-10.md)
 - [Tools](../references/tools.md) — Nmap, Gobuster, JoomScan, ssh, GTFOBins
 - [Methodology](../references/methodology.md) — complete lifecycle applied
+
+## Key Takeaway
+
+The Boiler CTF was the most satisfying room of the entire course because it required every skill built across thirteen weeks — Nmap, anonymous FTP, Gobuster, CMS scanning, remote code execution, SSH lateral movement, credential chaining, and SUID privilege escalation. Nothing was wasted. The course built deliberately to this moment, and the methodology held under exam pressure. Walking out of that final knowing that a systematic approach defeated every obstacle — including the deliberate red herrings — was the best validation that the skills are real.
 
 ---
 
