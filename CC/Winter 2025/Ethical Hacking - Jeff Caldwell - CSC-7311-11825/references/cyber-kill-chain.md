@@ -6,12 +6,37 @@ The **Cyber Kill Chain** was developed by Lockheed Martin as a threat-intelligen
 
 ## The Seven Phases
 
+```mermaid
+flowchart TD
+    R["1️⃣ Reconnaissance\nResearch target: employees,\ntech stack, public systems"]
+    W["2️⃣ Weaponization\nPair exploit + payload\n(macro, beacon, LNK)"]
+    D["3️⃣ Delivery\nTransmit payload: phishing,\nwatering hole, USB, supply chain"]
+    E["4️⃣ Exploitation\nPayload triggers: CVE exploit,\nmacro execution, user click"]
+    I["5️⃣ Installation\nPersistence: service, cron,\nregistry key, rootkit"]
+    C2["6️⃣ Command & Control\nC2 channel: HTTPS beacon,\nDNS tunnel, cloud C2"]
+    A["7️⃣ Actions on Objectives\nMission: exfiltrate, encrypt,\ndestroy, pivot"]
+
+    R --> W --> D --> E --> I --> C2 --> A
+
+    R -.-|"🛡️ OSINT monitoring,\nmetadata scrubbing"| RD["Defender"]
+    D -.-|"🛡️ Email filtering,\nURL rewriting"| RD
+    E -.-|"🛡️ Patching, EDR,\napplication allowlisting"| RD
+    I -.-|"🛡️ HIDS, integrity\nmonitoring"| RD
+    C2 -.-|"🛡️ Egress filtering,\nDNS sinkhole"| RD
+    A -.-|"🛡️ DLP, segmentation,\nhoney tokens"| RD
+
+    style R fill:#1a1a2e,stroke:#e94560,color:#fff
+    style W fill:#16213e,stroke:#e94560,color:#fff
+    style D fill:#0f3460,stroke:#e94560,color:#fff
+    style E fill:#533483,stroke:#e94560,color:#fff
+    style I fill:#4a0072,stroke:#e94560,color:#fff
+    style C2 fill:#2d2d2d,stroke:#e94560,color:#fff
+    style A fill:#800000,stroke:#e94560,color:#fff
+    style RD fill:#004d00,stroke:#0f0,color:#0f0
 ```
- 1. Reconnaissance   →  2. Weaponization   →  3. Delivery   →  4. Exploitation
-                                                                    ↓
- 7. Actions on       ←  6. Command &       ←  5. Installation
-    Objectives          Control (C2)
-```
+
+> [!TIP]
+> **Break the chain at any step to break the attack.** The defender only needs to succeed at one phase; the attacker must succeed at all seven. This is why defense-in-depth works.
 
 ### 1. Reconnaissance
 **Attacker activity:** research the target — employees, technology stack, public-facing systems, business context.
@@ -43,7 +68,8 @@ The **Cyber Kill Chain** was developed by Lockheed Martin as a threat-intelligen
 
 ## Why it matters for defense
 
-**Break the chain at any step to break the attack.** A single control failure is rarely fatal; layered controls mean an attacker must succeed at every stage while the defender only needs to catch them once.
+> [!IMPORTANT]
+> **Break the chain at any step to break the attack.** A single control failure is rarely fatal; layered controls mean an attacker must succeed at every stage while the defender only needs to catch them once.
 
 This is the origin of the phrase **"defense in depth"** — the kill chain formalizes why stacking imperfect controls still works.
 

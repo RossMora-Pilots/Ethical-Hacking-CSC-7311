@@ -17,6 +17,10 @@ The opening session covered administrative orientation, established the ethical 
 - Open-book policy with screenshot evidence required
 
 ### 2. Ethical and Legal Framework
+
+> [!CAUTION]
+> The instructor made clear from the first session: unauthorized computer access is a criminal offence under Canadian law. The entire course operates within the boundary of intentionally vulnerable lab targets.
+
 - **Canadian Criminal Code** provisions: s. 342.1 (unauthorized use of a computer), s. 430(1.1) (mischief to data), s. 184 (interception)
 - **Privacy laws:** PIPEDA + provincial variants
 - **Hacker classification:** white/grey/black hat → authorized/semi-authorized/unauthorized

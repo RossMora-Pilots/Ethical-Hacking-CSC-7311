@@ -11,16 +11,27 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 - [x] Author OWASP Top 10 study companion
 - [x] Publish tool reference (Nmap, Gobuster, Nikto, OpenVAS, JoomScan, Metasploit)
 - [x] Add course syllabus summary and methodology pages
+- [x] Add Mermaid attack-flow diagrams to all 3 CTF walkthroughs
+- [x] Add Mermaid lifecycle diagram to methodology.md
+- [x] Add Mermaid Kill Chain diagram to cyber-kill-chain.md
+- [x] Add Mermaid tool selection decision tree to tools.md
+- [x] Add OWASP lab coverage matrix to owasp-top-10.md
+- [x] Add dedicated remediation tables (with CVSS) to all 3 CTF walkthroughs
+- [x] Add MITRE ATT&CK mapping to Mr. Robot walkthrough
+- [x] Add GitHub callouts (NOTE/TIP/WARNING/CAUTION) throughout portfolio
+- [x] Add table of contents to CTF walkthroughs
+- [x] Create Week 8 (midterm) weekly report
+- [x] Create CI workflows (markdownlint, gitleaks)
 - [ ] Run PM plumbing (`scripts/pm.sh run`) to generate artifacts
 - [ ] Register pilot in portfolio index and render docs index
 
 ## Next
-- [ ] Add CI workflows (gitleaks, markdownlint, pm-evidence, portfolio-ci)
 - [ ] Add repo topics: `cybersecurity`, `ethical-hacking`, `penetration-testing`, `tryhackme`, `ctf`, `kali-linux`, `nmap`, `owasp`
 - [ ] Capture screenshots from source DOCX submissions and place in `screenshots/` with `wkNN_topic_index.png` naming
 - [ ] Build auto-generated EVIDENCE_INDEX.md from screenshot inventory
 - [ ] Add link-check CI (lychee) and shellcheck validation for lab scripts
 - [ ] Expand Week 2 / Week 7 / Week 9 gaps where material exists in transcripts
+- [ ] Extract student-authored scripts (fsocity_dedupe.sh, ctf_recon.sh, rot13_decode.py) to scripts/ directory
 
 ## Later
 - [ ] Optional GitHub Pages landing with CTF writeup gallery

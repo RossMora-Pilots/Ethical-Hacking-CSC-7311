@@ -2,6 +2,54 @@
 
 Every tool exercised in the course, with canonical invocations and the lab context in which it was used.
 
+## Tool Selection Decision Tree
+
+```mermaid
+flowchart TD
+    START["🎯 What phase are you in?"]
+
+    START --> RECON["1️⃣ Reconnaissance"]
+    START --> ENUM["2️⃣ Enumeration"]
+    START --> EXPLOIT["3️⃣ Exploitation"]
+    START --> POST["4️⃣ Post-Exploitation"]
+
+    RECON --> NMAP_INIT["Nmap -sn\nHost discovery"]
+    RECON --> OSINT["WHOIS / dig / Shodan\nPassive recon"]
+
+    ENUM --> WEB{"Web app?"}
+    ENUM --> NET{"Network\nservices?"}
+
+    WEB -->|Yes| CMS{"CMS detected?"}
+    WEB -->|No| NMAP_SV["Nmap -sC -sV -p-\nFull service scan"]
+
+    CMS -->|WordPress| WPSCAN["WPScan\n--enumerate u,p,t"]
+    CMS -->|Joomla| JOOMSCAN["JoomScan\n--url target"]
+    CMS -->|Unknown| GOBUSTER["Gobuster dir\n+ Nikto"]
+
+    NET -->|FTP| FTP_ANON["ftp anonymous\nBanner grab + ls"]
+    NET -->|SSH| HYDRA["Hydra\nSSH brute-force"]
+    NET -->|HTTP| GOBUSTER
+
+    EXPLOIT --> INJECTION{"Injection\npoint found?"}
+    EXPLOIT --> CREDS{"Credentials\navailable?"}
+
+    INJECTION -->|Web param| CURL_RCE["curl / browser\nCommand injection"]
+    INJECTION -->|SQL| SQLMAP["SQLMap\n--batch --dbs"]
+    CREDS -->|WP admin| THEME_EDIT["Theme Editor\nPHP reverse shell"]
+    CREDS -->|SSH| SSH_LOGIN["ssh user@target"]
+
+    POST --> SUID["find / -perm -4000\nSUID enumeration"]
+    POST --> SUDO["sudo -l\nPermitted commands"]
+    POST --> LINPEAS["LinPEAS\nAutomated enumeration"]
+    SUID --> GTFO["GTFOBins\nLookup + exploit"]
+
+    style START fill:#1a1a2e,stroke:#e94560,color:#fff
+    style RECON fill:#16213e,stroke:#e94560,color:#fff
+    style ENUM fill:#0f3460,stroke:#e94560,color:#fff
+    style EXPLOIT fill:#533483,stroke:#e94560,color:#fff
+    style POST fill:#4a0072,stroke:#e94560,color:#fff
+```
+
 ---
 
 ## Platform

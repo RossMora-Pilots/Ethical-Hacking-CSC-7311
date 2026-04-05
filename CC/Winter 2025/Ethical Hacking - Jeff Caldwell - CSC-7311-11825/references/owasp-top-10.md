@@ -270,6 +270,24 @@ In AWS: returns IAM role credentials. In Azure / GCP: returns equivalent metadat
 
 ## How OWASP Maps to This Course's Labs
 
+The following matrix shows which OWASP categories were directly exercised in each lab/CTF:
+
+| OWASP Category | Pickle Rick | Mr. Robot | Boiler CTF | Coverage |
+|---|:---:|:---:|:---:|---|
+| **A01** Broken Access Control | ✅ | ✅ | | 2/3 |
+| **A02** Cryptographic Failures | | ✅ | ✅ | 2/3 |
+| **A03** Injection | ✅ | | ✅ | 2/3 |
+| **A04** Insecure Design | ✅ | | | 1/3 |
+| **A05** Security Misconfiguration | ✅ | ✅ | ✅ | **3/3** |
+| **A06** Vulnerable Components | | ✅ | ✅ | 2/3 |
+| **A07** Auth Failures | | ✅ | | 1/3 |
+| **A08** Software Integrity | | | ✅ | 1/3 |
+| **A09** Logging Failures | | | | 0/3 |
+| **A10** SSRF | | | | 0/3 |
+
+> [!NOTE]
+> **A05 (Security Misconfiguration)** appeared in every CTF — it is the most universally exploited category. A09 and A10 were covered conceptually but not exercised in labs.
+
 | Lab / CTF | OWASP category exploited |
 |---|---|
 | **Pickle Rick** (Midterm) | A01 Broken Access Control, A03 Injection, A05 Misconfiguration |

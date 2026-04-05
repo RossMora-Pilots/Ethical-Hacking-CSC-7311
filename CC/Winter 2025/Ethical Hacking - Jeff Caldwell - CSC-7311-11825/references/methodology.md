@@ -17,6 +17,31 @@ The course focused on the **Cyber Kill Chain** and **MITRE ATT&CK** as primary f
 
 This is the applied methodology followed in every course lab and both CTFs.
 
+```mermaid
+flowchart LR
+    P1["1️⃣ Reconnaissance\n& Footprinting"]
+    P2["2️⃣ Scanning\n& Enumeration"]
+    P3["3️⃣ Gaining\nAccess"]
+    P4["4️⃣ Maintaining\nAccess"]
+    P5["5️⃣ Covering\nTracks"]
+    P6["6️⃣ Reporting"]
+
+    P1 --> P2 --> P3 --> P4 --> P5 --> P6
+    P3 -.->|"New targets\ndiscovered"| P2
+    P4 -.->|"Deeper\nenumeration"| P2
+    P6 -.->|"Retest after\nremediation"| P1
+
+    style P1 fill:#1a1a2e,stroke:#e94560,color:#fff
+    style P2 fill:#16213e,stroke:#e94560,color:#fff
+    style P3 fill:#0f3460,stroke:#e94560,color:#fff
+    style P4 fill:#533483,stroke:#e94560,color:#fff
+    style P5 fill:#2d2d2d,stroke:#888,color:#ccc
+    style P6 fill:#1a1a2e,stroke:#0f0,color:#0f0
+```
+
+> [!NOTE]
+> Phases 4 and 5 (Maintaining Access / Covering Tracks) were studied **conceptually only** in this course. All lab work focused on Phases 1–3 and 6. Dashed arrows show the iterative nature of real engagements — discovery often loops back to earlier phases.
+
 ### Phase 1 — Reconnaissance & Footprinting
 
 **Goal:** gather information about the target *before* touching it.

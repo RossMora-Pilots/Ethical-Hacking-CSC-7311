@@ -4,11 +4,44 @@
 > **Room:** [TryHackMe — Pickle Rick](https://tryhackme.com/room/picklerick) (free tier)
 > **Difficulty:** Easy · **Category:** Web exploitation + privilege escalation
 
+## Table of Contents
+
+- [Objective](#objective)
+- [Attack Flow](#attack-flow)
+- [Methodology](#methodology)
+- [Steps 1–9](#step-1--initial-reconnaissance-port--service-scan)
+- [Tool Summary](#tool-summary)
+- [Key Learnings](#key-learnings)
+- [Remediation Recommendations](#remediation-recommendations)
+- [Mapping to OWASP Top 10](#mapping-to-owasp-top-10)
+- [Mapping to MITRE ATT&CK](#mapping-to-mitre-attck)
+
+## Attack Flow
+
+```mermaid
+flowchart TD
+    A["🔍 Nmap Scan\n22/tcp SSH · 80/tcp HTTP"] --> B["🌐 View Page Source\nUsername: R1ckRul3s"]
+    B --> C["📄 robots.txt\nPassword: Wubbalubbadubdub"]
+    C --> D["📂 Gobuster + Nikto\n/login.php · /portal.php"]
+    D --> E["🔑 Login to /portal.php\nAuthenticated command panel"]
+    E --> F["🥒 Ingredient 1\nls + less (cat blocked)"]
+    F --> G["🥒 Ingredient 2\nsudo less /home/rick/..."]
+    G --> H["⚡ sudo -l → NOPASSWD: ALL"]
+    H --> I["🥒 Ingredient 3\nsudo less /root/3rd.txt"]
+    I --> J["🏁 Room Complete"]
+
+    style A fill:#1a1a2e,stroke:#e94560,color:#fff
+    style E fill:#0f3460,stroke:#e94560,color:#fff
+    style H fill:#533483,stroke:#e94560,color:#fff
+    style J fill:#16213e,stroke:#0f0,color:#0f0
+```
+
 ## Objective
 
 Retrieve three "secret ingredients" hidden on the target machine so that Rick can transform back into a human. The challenge mimics a realistic web application penetration test: reconnaissance → web enumeration → credential discovery → authenticated command execution → sudo-based privilege escalation.
 
-The TryHackMe room does **not** walk through the exploitation — the tester chooses the approach.
+> [!TIP]
+> The TryHackMe room does **not** walk through the exploitation — the tester chooses the approach.
 
 ## Methodology
 
@@ -251,11 +284,33 @@ _Evidence: TryHackMe "Room Complete" screen with 100% progress._
 
 ## Key Learnings
 
+> [!NOTE]
+> These takeaways apply directly to real-world penetration testing engagements.
+
 1. **Information leakage compounds.** A single leaked username + a single leaked password = full authentication. In production, treat `robots.txt` and HTML comments as public.
-2. **`cat` is not the only file reader.** Any command filter that blocks only a few binaries can be bypassed trivially — denylists are almost always incomplete.
-3. **`NOPASSWD: ALL` is catastrophic.** A single sudoers misconfiguration neutralizes every other hardening measure.
-4. **Authenticated RCE is still RCE.** Features that execute user-supplied shell commands need auth AND authorization AND input sanitization.
+2. **`cat` is not the only file reader.** Any command filter that blocks only a few binaries can be bypassed trivially — denylists are almost always incomplete. Alternatives: `less`, `more`, `head`, `tail`, `nl`, `awk`, `sed`, `base64 -d`.
+3. **`NOPASSWD: ALL` is catastrophic.** A single sudoers misconfiguration neutralizes every other hardening measure. This is the most common privilege escalation vector in CTFs and real environments alike.
+4. **Authenticated RCE is still RCE.** Features that execute user-supplied shell commands need auth AND authorization AND input sanitization. A command panel is a shell by another name.
 5. **Directory brute-forcing is fast and cheap.** Always run Gobuster against a target early; the cost is low and the yield is high.
+
+---
+
+## Remediation Recommendations
+
+> [!WARNING]
+> These findings represent **critical misconfigurations** that would be flagged in any professional pentest engagement.
+
+If this were a real engagement, the following remediation would be recommended:
+
+| # | Finding | Severity | CVSS 3.1 | Recommendation |
+|---|---|---|---|---|
+| 1 | Credentials in HTML comments | **High** | 7.5 | Remove all developer comments from production HTML. Implement code-review gates that scan for credential patterns before deployment. |
+| 2 | Password exposed in `robots.txt` | **Critical** | 9.8 | Never store credentials in web-accessible files. Rotate all credentials immediately. Audit `robots.txt` as part of deployment checklist. |
+| 3 | Unauthenticated command execution panel | **Critical** | 10.0 | Remove the command panel entirely, or restrict to localhost-only access with MFA. No web application should expose a shell interface. |
+| 4 | Ineffective `cat` command filter | **Medium** | 5.3 | Denylist-based command filtering is fundamentally broken. Use allowlists or remove shell access entirely. |
+| 5 | `sudo NOPASSWD: ALL` for www-data | **Critical** | 9.8 | Apply principle of least privilege. Web service accounts should never have sudo access. If needed, restrict to specific commands only. |
+
+**Risk Summary:** This system has **zero effective security layers** once the attacker discovers the exposed credentials. Defense-in-depth was completely absent.
 
 ---
 

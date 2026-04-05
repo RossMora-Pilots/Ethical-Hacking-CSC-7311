@@ -11,7 +11,7 @@ Chronological summaries of each course session, with links to CTF walkthroughs a
 | [05](week-05-enumeration-brute-force-openvas.md) | 2025-02-03 | Enumeration, Brute Force, OpenVAS |
 | [06](week-06-network-services.md) | 2025-02-10 | Network Services (Parts 1, 2, 3) |
 | 07 | 2025-02-17 | Reading week (no deliverable) |
-| 08 | 2025-03-03 | **Midterm — Pickle Rick CTF** → [walkthrough](../ctf-walkthroughs/midterm-pickle-rick.md) |
+| [08](week-08-midterm-pickle-rick.md) | 2025-03-03 | **Midterm — Pickle Rick CTF** → [walkthrough](../ctf-walkthroughs/midterm-pickle-rick.md) |
 | 09 | 2025-03-10 | Catch-up / review (no deliverable) |
 | [10](week-10-phishing.md) | 2025-03-17 | Phishing Analysis + Phishing in Action |
 | [11](week-11-live-host-scanning-wireless.md) | 2025-03-24 | Live Host Scanning (Nmap) + Wireless Hacking 101 |

@@ -4,6 +4,51 @@
 > **Room:** [TryHackMe — Boiler CTF](https://tryhackme.com/room/boilerctf2)
 > **Difficulty:** Medium · **Category:** Enumeration, web exploitation, privilege escalation
 
+## Table of Contents
+
+- [Objective](#objective)
+- [Attack Flow](#attack-flow)
+- [Methodology](#methodology)
+- [Steps 1–11](#step-1--initial-reconnaissance)
+- [Attack Path Summary](#attack-path-summary)
+- [Tool Summary](#tool-summary)
+- [Key Learnings](#key-learnings)
+- [Remediation Recommendations](#remediation-recommendations-if-this-were-a-real-engagement)
+- [Mapping to OWASP Top 10](#mapping-to-owasp-top-10)
+- [Mapping to MITRE ATT&CK](#mapping-to-mitre-attck)
+
+## Attack Flow
+
+```mermaid
+flowchart TD
+    NMAP["🔍 Nmap Full-Port Scan\n21 FTP · 80 HTTP · 10000 Webmin · 55007 SSH"]
+
+    NMAP --> FTP["📁 FTP Anonymous Login\n.info.txt → ROT13 → red herring"]
+    NMAP --> HTTP["🌐 HTTP Gobuster\n/joomla/ discovered"]
+    NMAP --> SSH_WAIT["🔒 SSH on 55007\nAwaiting credentials..."]
+
+    HTTP --> JOOMLA["📂 Gobuster /joomla/\n/_test → Sar2HTML 3.2.1"]
+    HTTP --> JOOMSCAN["🔎 JoomScan\nJoomla 3.9.10 · no core vuln"]
+
+    JOOMLA --> RCE["💉 Sar2HTML RCE\nplot=;cat log.txt"]
+    RCE --> CREDS1["🔑 Creds: basterd\nsuperduperp@$$"]
+
+    CREDS1 --> SSH_WAIT
+    SSH_WAIT --> BASTERD["📟 SSH as basterd\ncat backup.sh"]
+    BASTERD --> CREDS2["🔑 Creds: stoner\nsuperduperp@$$no1knows"]
+    CREDS2 --> STONER["👤 su stoner\nUser flag: .secret"]
+
+    STONER --> SUID["⚡ find / -perm -4000\n/usr/bin/find has SUID"]
+    SUID --> ROOT["🔓 find -exec /bin/sh -p\neuid=0 (root)"]
+    ROOT --> FLAG["🏁 Root flag captured\nRoom Complete"]
+
+    style NMAP fill:#1a1a2e,stroke:#e94560,color:#fff
+    style RCE fill:#0f3460,stroke:#e94560,color:#fff
+    style SUID fill:#533483,stroke:#e94560,color:#fff
+    style FLAG fill:#16213e,stroke:#0f0,color:#0f0
+    style FTP fill:#2d2d2d,stroke:#888,color:#ccc
+```
+
 ## Objective
 
 Gain full system access to the target machine, then collect the **user flag** (from `/home/stoner/.secret`) and the **root flag** (from `/root/root.txt`). The room tests end-to-end enumeration discipline: there are several rabbit holes, an ROT13-encoded hint file, a CMS fingerprint, an obscure third-party component with known RCE, credentials in log files, multi-user lateral movement, and SUID-based privilege escalation.
@@ -358,12 +403,15 @@ _Evidence: `/root/root.txt` contents + TryHackMe room completion screen._
 
 ## Key Learnings
 
+> [!NOTE]
+> The Boiler CTF tested every phase of the pentest lifecycle and rewarded methodical enumeration over guessing.
+
 1. **Enumeration pays — always run the slow scan.** A partial port scan would have missed SSH on 55007. Full-port (`-p-`) is non-negotiable in CTFs and should be the default in pentests.
-2. **ROT13 is a fingerprint, not a cipher.** Any encoded blob in a CTF is worth trying ROT13, base64, URL-decode, and hex first.
-3. **Secondary tools reveal what primary tools miss.** JoomScan found nothing exploitable in Joomla core — the vulnerability was in a bolt-on component that Gobuster surfaced.
-4. **Log files leak credentials.** `log.txt` with "#pass:" comments is a real-world pattern — treat any writable test artifact as a potential leak.
-5. **Scripts comment-leak secrets.** `backup.sh` hardcoded a user credential — this is what `gitleaks` and `trufflehog` catch in source control.
-6. **SUID bits on unexpected binaries = instant red flag.** `/usr/bin/find` with SUID is a textbook GTFOBins escalation path; any SUID binary outside a vetted list deserves scrutiny.
+2. **ROT13 is a fingerprint, not a cipher.** Any encoded blob in a CTF is worth trying ROT13, base64, URL-decode, and hex first. Recognizing encoding schemes is a core analyst skill.
+3. **Secondary tools reveal what primary tools miss.** JoomScan found nothing exploitable in Joomla core — the vulnerability was in a bolt-on component that Gobuster surfaced. Always enumerate subdirectories independently.
+4. **Log files leak credentials.** `log.txt` with "#pass:" comments is a real-world pattern — treat any writable test artifact as a potential leak. This is what SIEM-based credential monitoring catches.
+5. **Scripts comment-leak secrets.** `backup.sh` hardcoded a user credential — this is what `gitleaks` and `trufflehog` catch in source control. Code review must include shell scripts and config files.
+6. **SUID bits on unexpected binaries = instant red flag.** `/usr/bin/find` with SUID is a textbook GTFOBins escalation path; any SUID binary outside a vetted list deserves scrutiny. Automate SUID auditing.
 7. **The -p flag matters.** Without `-p` on `/bin/sh`, the kernel would drop the SUID privileges before spawning the shell. Small detail, huge consequence.
 
 ---
@@ -394,14 +442,19 @@ _Evidence: `/root/root.txt` contents + TryHackMe room completion screen._
 
 ## Remediation Recommendations (if this were a real engagement)
 
-1. **Disable anonymous FTP** or remove the FTP service if not required. Prefer SFTP with key authentication.
-2. **Patch or replace Sar2HTML.** Version 3.2.1 has a known RCE — upgrade or remove.
-3. **Remove log.txt from the web root.** Log files should live outside `DocumentRoot`.
-4. **Scan code for embedded credentials** (gitleaks, trufflehog) in every CI run.
-5. **Audit SUID binaries** regularly. `/usr/bin/find` should never have SUID in production.
-6. **Enforce least privilege for www-data** — the Sar2HTML instance should run under a dedicated restricted user with no shell.
-7. **Network segmentation** — Webmin on 10000/tcp should not be publicly exposed; bind to management VLAN or VPN.
-8. **File integrity monitoring** would catch the addition of SUID bits on unexpected binaries.
+> [!CAUTION]
+> This system had **multiple independent paths to root compromise**. Even fixing one vulnerability would not prevent exploitation via the others.
+
+| # | Finding | Severity | CVSS 3.1 | Recommendation |
+|---|---|---|---|---|
+| 1 | Anonymous FTP enabled with file disclosure | **Medium** | 5.3 | Disable anonymous FTP or remove the FTP service entirely. Prefer SFTP with key authentication. |
+| 2 | Sar2HTML 3.2.1 RCE via `plot=` parameter | **Critical** | 9.8 | Patch or remove Sar2HTML immediately. Version 3.2.1 has a known RCE — no authentication required. |
+| 3 | Credentials in `log.txt` on web root | **Critical** | 9.1 | Remove all log files from `DocumentRoot`. Implement log rotation to non-web-accessible paths. |
+| 4 | Credentials hardcoded in `backup.sh` | **High** | 7.5 | Scan code for embedded credentials (gitleaks, trufflehog) in every CI run. Use credential vaults. |
+| 5 | SUID bit on `/usr/bin/find` | **Critical** | 8.8 | Audit SUID binaries regularly. `/usr/bin/find` should never have SUID in production. |
+| 6 | Webmin on port 10000 publicly exposed | **High** | 7.2 | Bind Webmin to management VLAN or VPN only. Never expose admin interfaces to untrusted networks. |
+| 7 | SSH on non-standard port (security through obscurity) | **Low** | 2.0 | Non-standard ports do not provide security. Implement key-only SSH auth and fail2ban. |
+| 8 | No file integrity monitoring | **Medium** | 5.0 | Deploy tripwire/AIDE/auditd to detect SUID bit changes and unauthorized file modifications. |
 
 ---
 

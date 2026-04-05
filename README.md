@@ -3,7 +3,6 @@
 > Postgraduate Cybersecurity Certificate · Cambrian College · Winter 2025
 > Instructor: **Jeff Caldwell** · Course Code: **CSC-7311-11825**
 
-![PM Evidence](https://github.com/RossMora/409-ethical-hacking/actions/workflows/pm-evidence.yml/badge.svg)
 ![Markdown Lint](https://github.com/RossMora/409-ethical-hacking/actions/workflows/markdownlint.yml/badge.svg)
 ![Gitleaks](https://github.com/RossMora/409-ethical-hacking/actions/workflows/gitleaks.yml/badge.svg)
 
