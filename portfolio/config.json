@@ -1,0 +1,69 @@
+{
+  "course_path": "CC/Winter 2025/Ethical Hacking - Jeff Caldwell - CSC-7311-11825",
+  "course": {
+    "code": "CSC-7311",
+    "section": "11825",
+    "name": "Ethical Hacking",
+    "instructor": "Jeff Caldwell",
+    "institution": "Cambrian College",
+    "program": "Postgraduate Cybersecurity Certificate",
+    "term": "Winter 2025",
+    "schedule": "Mondays 17:30-20:30 + Zoom",
+    "location": "Sudbury, Ontario, Canada"
+  },
+  "metrics": {
+    "weeks_covered": 13,
+    "ctf_rooms_completed": 3,
+    "major_writeups": 14,
+    "tools_hands_on": 10,
+    "attack_surfaces": 8
+  },
+  "evidence": {
+    "midterm": ["ctf-walkthroughs/midterm-pickle-rick.md"],
+    "final": ["ctf-walkthroughs/final-boiler-ctf.md"],
+    "references": ["references/owasp-top-10.md", "references/methodology.md"]
+  },
+  "skills": [
+    "Penetration Testing Methodology (PTES, OSSTMM, Cyber Kill Chain)",
+    "Network Reconnaissance (Nmap, port scanning, service/version detection)",
+    "Web Application Testing (Gobuster, Nikto, directory brute-forcing)",
+    "Vulnerability Scanning (OpenVAS, JoomScan)",
+    "Command Injection & Web Exploitation",
+    "Credential Discovery & Password Brute-forcing (Hydra)",
+    "Privilege Escalation (SUID, sudo abuse, GTFOBins)",
+    "Linux Shell Operations & Post-Exploitation",
+    "Phishing Analysis & Social Engineering Awareness",
+    "Wireless Security Concepts (Wi-Fi Pineapple, RFID/NFC)",
+    "OWASP Top 10 Web Vulnerabilities",
+    "Canadian Cybersecurity Law & Responsible Disclosure"
+  ],
+  "tools": [
+    {"name": "Nmap", "category": "reconnaissance"},
+    {"name": "Gobuster", "category": "web enumeration"},
+    {"name": "Nikto", "category": "web scanning"},
+    {"name": "curl", "category": "http inspection"},
+    {"name": "OpenVAS / Greenbone", "category": "vulnerability scanning"},
+    {"name": "JoomScan", "category": "cms scanning"},
+    {"name": "Hydra", "category": "brute force"},
+    {"name": "Metasploit Framework", "category": "exploitation"},
+    {"name": "GTFOBins", "category": "privilege escalation reference"},
+    {"name": "Kali Linux", "category": "attack platform"},
+    {"name": "VirtualBox", "category": "virtualization"},
+    {"name": "TryHackMe", "category": "lab platform"}
+  ],
+  "ctf_completions": [
+    {"room": "Pickle Rick", "platform": "TryHackMe", "purpose": "Midterm", "date": "2025-03-03"},
+    {"room": "Mr. Robot CTF", "platform": "TryHackMe", "purpose": "Lab (Week 12)", "date": "2025-03-31"},
+    {"room": "Boiler CTF", "platform": "TryHackMe", "purpose": "Final Exam", "date": "2025-04-14"}
+  ],
+  "references": [
+    {"title": "TryHackMe", "url": "https://tryhackme.com/"},
+    {"title": "Kali Linux", "url": "https://www.kali.org/"},
+    {"title": "Cyber Kill Chain (Lockheed Martin)", "url": "https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html"},
+    {"title": "MITRE ATT&CK", "url": "https://attack.mitre.org/"},
+    {"title": "OWASP Top 10", "url": "https://owasp.org/www-project-top-ten/"},
+    {"title": "GTFOBins", "url": "https://gtfobins.github.io/"},
+    {"title": "PTES - Penetration Testing Execution Standard", "url": "http://www.pentest-standard.org/"},
+    {"title": "OSSTMM", "url": "https://www.isecom.org/OSSTMM.3.pdf"}
+  ]
+}

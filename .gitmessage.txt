@@ -1,0 +1,11 @@
+type(scope): concise subject (max 72 chars)
+
+Why
+- Motivation for this change (what problem, what value)
+
+What
+- Key changes (files/areas)
+- Outcomes/evidence (artifacts, metrics)
+
+Notes
+- Links or references (optional)
