@@ -1,7 +1,6 @@
 artifacts/** filter=lfs diff=lfs merge=lfs -text
 images/** filter=lfs diff=lfs merge=lfs -text
 screenshots/** filter=lfs diff=lfs merge=lfs -text
-
 # Large document/media types
 *.docx filter=lfs diff=lfs merge=lfs -text
 *.pptx filter=lfs diff=lfs merge=lfs -text
@@ -12,3 +11,8 @@ screenshots/** filter=lfs diff=lfs merge=lfs -text
 *.mp4  filter=lfs diff=lfs merge=lfs -text
 *.pcap filter=lfs diff=lfs merge=lfs -text
 *.pcapng filter=lfs diff=lfs merge=lfs -text
+*.bmp filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.gif filter=lfs diff=lfs merge=lfs -text

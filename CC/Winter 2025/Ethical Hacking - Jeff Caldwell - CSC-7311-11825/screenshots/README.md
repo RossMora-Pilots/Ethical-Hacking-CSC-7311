@@ -1,6 +1,8 @@
 # Screenshots
 
-Evidence images captured during lab work. Pending re-export from source DOCX submissions; this folder is currently a placeholder and will be populated per the naming convention below.
+Evidence images captured during lab work — **67 unique screenshots** extracted from source DOCX submissions.
+
+See [EVIDENCE_INDEX.md](../EVIDENCE_INDEX.md) for the full inventory with step-by-step mappings.
 
 ## Naming Convention
 
@@ -34,7 +36,7 @@ Original screenshots were embedded in source DOCX submissions:
 | Other weekly submissions | ~20 combined |
 | **Total** | **~380** |
 
-Re-export to this folder is tracked in ROADMAP.md under "Next".
+Re-export to this folder is complete — see [EVIDENCE_INDEX.md](../EVIDENCE_INDEX.md) for the full manifest.
 
 ---
 

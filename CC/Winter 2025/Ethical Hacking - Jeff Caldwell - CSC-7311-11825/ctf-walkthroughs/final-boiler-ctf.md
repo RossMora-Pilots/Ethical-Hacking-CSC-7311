@@ -99,7 +99,8 @@ sudo nmap -sC -sV -p- 10.10.106.174
 
 **Finding:** multiple attack surfaces. Anonymous FTP is a standing invitation; the non-standard SSH port at 55007 is a flag that the author expects credentials to surface later.
 
-_Evidence: Nmap scan output showing all four services._
+![Nmap full-port scan — 4 services](../screenshots/wk13_boiler_ctf_01.png)
+![Nmap service fingerprints](../screenshots/wk13_boiler_ctf_02.png)
 
 ---
 
@@ -130,7 +131,8 @@ Just wanted to see if you found it. Lol. Remember: Enumeration is the key!
 
 **Finding:** intentional red herring — no actual credentials, but it confirms enumeration is the intended approach. Move on.
 
-_Evidence: FTP session transcript + `.info.txt` contents + decoded ROT13._
+![FTP anonymous login — .info.txt](../screenshots/wk13_boiler_ctf_03.png)
+![ROT13 decoded — red herring](../screenshots/wk13_boiler_ctf_04.png)
 
 ---
 
@@ -154,7 +156,7 @@ gobuster dir -u http://10.10.106.174/joomla -w /usr/share/dirb/wordlists/common.
 
 **Outcome:** deeper paths discovered — `/_files`, `/_database`, `/_test`, and the standard Joomla directories (`/administrator/`, `/components/`, `/modules/`, `/templates/`). The most interesting was `/joomla/_test` which served a **Sar2HTML version 3.2.1** page.
 
-_Evidence: Gobuster outputs at both levels._
+![Gobuster — /joomla/ discovered](../screenshots/wk13_boiler_ctf_05.png)
 
 ---
 
@@ -178,7 +180,8 @@ joomscan --url http://10.10.106.174/joomla/
 
 **Finding:** Joomla itself was up-to-date enough that the attack path was NOT in core Joomla — it was in the Sar2HTML component at `/joomla/_test`.
 
-_Evidence: JoomScan output + report directory._
+![JoomScan — Joomla 3.9.10](../screenshots/wk13_boiler_ctf_06.png)
+![JoomScan report — no core vulnerabilities](../screenshots/wk13_boiler_ctf_07.png)
 
 ---
 
@@ -211,7 +214,9 @@ Aug 20 11:16:35 ... Accepted password for basterd from 10.1.1.1 ...
 
 **Finding:** a common security anti-pattern — test/debug log files committed to production web roots, containing plaintext credentials.
 
-_Evidence: browser screenshot showing command output + log.txt rendered contents._
+![Sar2HTML RCE — command injection proof](../screenshots/wk13_boiler_ctf_08.png)
+![Sar2HTML — directory listing](../screenshots/wk13_boiler_ctf_09.png)
+![cat log.txt — credentials discovered](../screenshots/wk13_boiler_ctf_10.png)
 
 ---
 
@@ -228,7 +233,7 @@ ssh basterd@10.10.106.174 -p 55007
 
 **Outcome:** successful login as `basterd`. Home directory contained `backup.sh`.
 
-_Evidence: SSH session prompt showing `basterd@boiler`._
+![SSH login as basterd on port 55007](../screenshots/wk13_boiler_ctf_11.png)
 
 ---
 
@@ -260,7 +265,8 @@ su stoner
 
 **Finding:** credentials hardcoded in shell scripts (even as comments) are a durable privilege-escalation vector. In production, commit-scanning (gitleaks) would catch this before deployment.
 
-_Evidence: `cat backup.sh` output + successful `su stoner` prompt._
+![cat backup.sh — stoner credentials](../screenshots/wk13_boiler_ctf_12.png)
+![su stoner — lateral movement](../screenshots/wk13_boiler_ctf_13.png)
 
 ---
 
@@ -278,7 +284,7 @@ You made it till here, well done.
 
 **First flag captured.**
 
-_Evidence: `.secret` contents displayed in terminal._
+![User flag — .secret contents](../screenshots/wk13_boiler_ctf_14.png)
 
 ---
 
@@ -301,7 +307,7 @@ SUID on `find` is a **known escape path** cataloged on GTFOBins.
 
 **Finding:** we can escalate to root via `/usr/bin/find -exec`.
 
-_Evidence: SUID enumeration output with `/usr/bin/find` highlighted._
+![SUID enumeration — /usr/bin/find highlighted](../screenshots/wk13_boiler_ctf_15.png)
 
 ---
 
@@ -328,7 +334,8 @@ uid=1000(stoner) gid=1000(stoner) euid=0(root) groups=1000(stoner)
 
 **Finding:** euid=0 — effective root. Full system control.
 
-_Evidence: `id` output showing `euid=0(root)`._
+![find -exec /bin/sh -p — root shell](../screenshots/wk13_boiler_ctf_16.png)
+![id showing euid=0(root)](../screenshots/wk13_boiler_ctf_17.png)
 
 ---
 
@@ -346,7 +353,9 @@ It wasn't that hard, was it?
 
 **Second flag captured. Room complete.**
 
-_Evidence: `/root/root.txt` contents + TryHackMe room completion screen._
+![Root flag — /root/root.txt](../screenshots/wk13_boiler_ctf_18.png)
+![TryHackMe room completion](../screenshots/wk13_boiler_ctf_19.png)
+![Room progress screen](../screenshots/wk13_boiler_ctf_20.png)
 
 ---
 

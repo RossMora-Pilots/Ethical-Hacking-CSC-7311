@@ -27,8 +27,9 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 
 ## Next
 - [ ] Add repo topics: `cybersecurity`, `ethical-hacking`, `penetration-testing`, `tryhackme`, `ctf`, `kali-linux`, `nmap`, `owasp`
-- [ ] Capture screenshots from source DOCX submissions and place in `screenshots/` with `wkNN_topic_index.png` naming
-- [ ] Build auto-generated EVIDENCE_INDEX.md from screenshot inventory
+- [x] Capture screenshots from source DOCX submissions and place in `screenshots/` with `wkNN_topic_index.png` naming (67 unique PNGs extracted)
+- [x] Build auto-generated EVIDENCE_INDEX.md from screenshot inventory
+- [x] Embed screenshots into CTF walkthrough documents (Pickle Rick: 25, Boiler: 21, Mr. Robot: 1)
 - [ ] Add link-check CI (lychee) and shellcheck validation for lab scripts
 - [ ] Expand Week 2 / Week 7 / Week 9 gaps where material exists in transcripts
 - [ ] Extract student-authored scripts (fsocity_dedupe.sh, ctf_recon.sh, rot13_decode.py) to scripts/ directory

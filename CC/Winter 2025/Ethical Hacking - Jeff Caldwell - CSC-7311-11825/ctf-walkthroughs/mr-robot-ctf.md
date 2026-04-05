@@ -86,7 +86,7 @@ sudo nmap -sC -sV -p- <target>
 
 **Finding:** single attack surface — HTTP/HTTPS. SSH is filtered, so credential-based SSH access may not be viable. The web application is the primary target.
 
-_Evidence: Nmap scan output showing three services._
+![Nmap scan — WordPress site](../screenshots/wk12_mr_robot_01.png)
 
 ---
 

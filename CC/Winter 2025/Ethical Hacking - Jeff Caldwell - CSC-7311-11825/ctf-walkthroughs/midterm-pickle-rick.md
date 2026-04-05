@@ -90,7 +90,8 @@ nmap -A -T4 -p- 10.10.13.213 -v -oN results
 
 **Finding:** SSH alone is useless without credentials, so the attack path must begin on HTTP.
 
-_Evidence: Nmap full-port scan output showing open 22/tcp and 80/tcp._
+![Nmap full-port scan output](../screenshots/wk08_pickle_rick_01.png)
+![Nmap service version details](../screenshots/wk08_pickle_rick_02.png)
 
 ---
 
@@ -114,7 +115,8 @@ Username: R1ckRul3s
 
 **Finding:** username obtained — now need a password.
 
-_Evidence: HTML source view showing the embedded username._
+![Web page landing](../screenshots/wk08_pickle_rick_03.png)
+![HTML source — username R1ckRul3s in comment](../screenshots/wk08_pickle_rick_04.png)
 
 ---
 
@@ -138,7 +140,7 @@ Wubbalubbadubdub
 
 **Finding:** candidate password found. Credentials are now `R1ckRul3s` / `Wubbalubbadubdub`.
 
-_Evidence: terminal output of `curl http://.../robots.txt`._
+![robots.txt — password string Wubbalubbadubdub](../screenshots/wk08_pickle_rick_05.png)
 
 ---
 
@@ -166,7 +168,9 @@ nikto -host http://10.10.13.213
 
 **Finding:** `/portal.php` was the intended login surface.
 
-_Evidence: Gobuster output showing discovered paths; Nikto output corroborating._
+![Gobuster directory enumeration](../screenshots/wk08_pickle_rick_06.png)
+![Nikto web server scan](../screenshots/wk08_pickle_rick_07.png)
+![Discovered paths — /login.php, /portal.php](../screenshots/wk08_pickle_rick_08.png)
 
 ---
 
@@ -187,7 +191,9 @@ _Evidence: Gobuster output showing discovered paths; Nikto output corroborating.
 
 **Finding:** this is a full RCE (remote code execution) via a built-in feature, not a vulnerability in the traditional sense — it's an intentionally exposed shell interface. Treat the session as a low-privilege shell.
 
-_Evidence: screenshot of the authenticated command panel showing output from a trivial test command._
+![Login form at /portal.php](../screenshots/wk08_pickle_rick_09.png)
+![Successful login — command panel](../screenshots/wk08_pickle_rick_10.png)
+![Command panel test output](../screenshots/wk08_pickle_rick_11.png)
 
 ---
 
@@ -208,7 +214,9 @@ less Sup3rS3cretPickl3Ingred.txt
 
 **Finding:** *First ingredient retrieved.* Defensive lesson: blocking a single binary does not eliminate a capability; dozens of Unix utilities can read a file.
 
-_Evidence: web panel output showing the first ingredient string._
+![ls -a — file listing](../screenshots/wk08_pickle_rick_12.png)
+![cat blocked — command filter](../screenshots/wk08_pickle_rick_13.png)
+![less bypass — first ingredient](../screenshots/wk08_pickle_rick_14.png)
 
 ---
 
@@ -229,7 +237,8 @@ sudo less "/home/rick/second ingredients"
 
 **Finding:** *Second ingredient retrieved.* Also revealed: the web-panel user has broader sudo access than typical — a classic misconfiguration.
 
-_Evidence: web panel output showing the second ingredient._
+![/home/rick directory listing](../screenshots/wk08_pickle_rick_15.png)
+![Second ingredient via sudo less](../screenshots/wk08_pickle_rick_16.png)
 
 ---
 
@@ -257,7 +266,10 @@ User www-data may run the following commands on the target:
 
 **Finding:** *Third ingredient retrieved.* The webshell-as-www-data compromise effectively meant root compromise from the moment credentials were reused.
 
-_Evidence: web panel output showing the third ingredient and sudo -l output._
+![sudo -l — NOPASSWD: ALL](../screenshots/wk08_pickle_rick_17.png)
+![/root directory listing](../screenshots/wk08_pickle_rick_18.png)
+![Third ingredient from /root/3rd.txt](../screenshots/wk08_pickle_rick_19.png)
+![Privilege escalation confirmation](../screenshots/wk08_pickle_rick_20.png)
 
 ---
 
@@ -265,7 +277,10 @@ _Evidence: web panel output showing the third ingredient and sudo -l output._
 
 Submitted three ingredients via TryHackMe's room interface. Room marked Complete.
 
-_Evidence: TryHackMe "Room Complete" screen with 100% progress._
+![TryHackMe ingredient submission](../screenshots/wk08_pickle_rick_21.png)
+![All three ingredients confirmed](../screenshots/wk08_pickle_rick_22.png)
+![Room progress 100%](../screenshots/wk08_pickle_rick_23.png)
+![Room completion screen](../screenshots/wk08_pickle_rick_24.png)
 
 ---
 
