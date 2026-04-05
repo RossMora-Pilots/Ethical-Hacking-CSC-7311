@@ -31,6 +31,9 @@ The assignment asked students to:
 
 **Key insight articulated in the assignment:** defense-in-depth is a direct consequence of the kill chain model. An attacker must succeed at every phase; a defender only needs to detect or prevent at **one**.
 
+> [!TIP]
+> Defense-in-depth is the direct corollary of the kill chain: because the attacker must succeed at every phase, layering controls across multiple phases dramatically raises the cost of a successful attack. When budgeting for defenses, map each control to the kill chain phase it disrupts.
+
 ## Defensive Mapping Table
 
 | Kill Chain Phase | Defensive Controls |
@@ -55,6 +58,21 @@ Both were established as complementary; the course subsequently used ATT&CK tech
 ## Student Work
 
 Assignment submitted as a Word document with conceptual write-up and mapping tables. Submission file in source: `Week 3/A00322717 Ross Moravec Cyber Kill Chain (Part 1 and Part 2).docx` (2.3 MB, 4 embedded images).
+
+![Cyber Kill Chain — phase overview and mapping diagram](../screenshots/wk03_cyber_kill_chain_01.png)
+
+![Kill chain applied to a real-world APT campaign](../screenshots/wk03_cyber_kill_chain_02.png)
+
+![Defensive controls mapped to each kill chain phase](../screenshots/wk03_cyber_kill_chain_03.png)
+
+![Kill chain vs. MITRE ATT&CK comparison](../screenshots/wk03_cyber_kill_chain_04.png)
+
+> [!NOTE]
+> The original assignment document embeds these images inline with the written analysis. They are reproduced here for portfolio accessibility.
+
+## Key Takeaway
+
+The kill chain's most powerful insight is for defenders, not attackers: you only need to break one link. That realization shifted my perspective from "how do I get in?" to "where should the organization invest?" Thinking about cost-per-phase-disrupted is what turns a vulnerability list into an actionable security strategy.
 
 ## References from this Session
 

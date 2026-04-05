@@ -34,6 +34,9 @@ Footprinting establishes what an attacker can learn about a target **without tou
 | Metadata analysis | Document author fields, internal paths in PDFs/Office docs |
 | LinkedIn / social media | Employee lists, technology stack hints, travel patterns |
 
+> [!NOTE]
+> Passive reconnaissance is legally distinct from active scanning — you are querying public data sources, not the target's infrastructure. That said, logging and rate-limiting on services like Shodan mean your queries may still leave traces.
+
 ### 3. Social Engineering
 
 Non-technical attacks that exploit **people** rather than **systems**.
@@ -52,6 +55,9 @@ Non-technical attacks that exploit **people** rather than **systems**.
 
 **Ethical framing:** social engineering is only acceptable within an engagement that has **explicit authorization** for it — most contracts carve it out because of HR and legal sensitivities.
 
+> [!TIP]
+> Phishing remains the number-one initial access vector in real-world breaches. Building a phishing simulation for a client requires its own scope document, separate from the network pentest authorization.
+
 ## Reading & Preparation
 
 - Read assigned TryHackMe rooms on reconnaissance and footprinting
@@ -60,6 +66,10 @@ Non-technical attacks that exploit **people** rather than **systems**.
 ## Lecture Recording
 
 Session recording (`.mp4`) and auto-generated transcript (`.txt`) available in the source course folder on institutional storage.
+
+## Key Takeaway
+
+Passive reconnaissance reveals far more than most people realize. Certificate transparency logs and Google dorks can expose internal infrastructure — subdomains, staging servers, forgotten admin panels — without ever sending a single packet to the target. The attacker's first move is almost always free and invisible.
 
 ## References from this Session
 

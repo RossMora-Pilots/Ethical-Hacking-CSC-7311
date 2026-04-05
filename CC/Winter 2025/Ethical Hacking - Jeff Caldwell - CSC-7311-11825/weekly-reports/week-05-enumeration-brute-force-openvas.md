@@ -42,6 +42,9 @@ hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://<target>
 
 **Lockout awareness:** the session emphasized that real-world brute-force attempts trigger lockouts and IDS alarms. In lab environments this is ignored; in a real engagement, rate-limiting + source-IP rotation + jitter are required.
 
+> [!WARNING]
+> In a real engagement, brute-force attacks can trigger account lockouts that cause a denial-of-service for legitimate users. Always confirm the lockout policy with the client before running Hydra or similar tools — and document that agreement in the rules of engagement.
+
 ### 3. OpenVAS (Greenbone Vulnerability Scanner)
 
 **OpenVAS** (now branded Greenbone Community Edition) is an open-source vulnerability scanner comparable to commercial Nessus.
@@ -79,6 +82,13 @@ The exercise included interpreting an OpenVAS report:
 - **False positive triage** — vulnerability scanners over-report; each finding must be verified
 - **Remediation mapping** — findings translated into patch/config/architectural actions
 
+![OpenVAS scan configuration and target setup](../screenshots/wk05_enum_bruteforce_openvas_01.png)
+
+![OpenVAS report output with severity-ranked findings](../screenshots/wk05_enum_bruteforce_openvas_02.png)
+
+> [!TIP]
+> Always run OpenVAS with the "Full and fast" config first. The "Full and deep" option can take hours on even a small subnet, and the marginal findings rarely justify the time cost in a time-boxed engagement.
+
 ## Lab Deliverable
 
 Combined deliverable covered:
@@ -94,6 +104,10 @@ Source file: `Week 5/A00322717 Ross Moravec Enumeration Brute Force OpenVAS Scan
 - [Further Nmap](https://tryhackme.com/room/furthernmap)
 - [Hydra](https://tryhackme.com/room/hydra)
 - [Common Attacks](https://tryhackme.com/room/commonattacks)
+
+## Key Takeaway
+
+OpenVAS showed me that vulnerability scanners are noisy, imprecise, and absolutely essential. The real skill isn't running the scan — it's triaging the false positives and translating findings into actionable recommendations that a client can actually prioritize. That interpretation layer is where the value of a human analyst lives.
 
 ## References from this Session
 

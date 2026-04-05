@@ -42,6 +42,9 @@ Detailed treatment: [references/methodology.md](../references/methodology.md)
 
 ### 4. Lab Environment Setup
 
+> [!TIP]
+> Take a VM snapshot immediately after a clean Kali install and again after initial configuration. Having a known-good baseline to revert to saves hours when a room or exploit breaks the environment.
+
 Students installed:
 
 - **VirtualBox** (hypervisor)
@@ -77,6 +80,10 @@ Instructor explicitly reminded students that CSC-7311 is **not** an intro to Lin
 > "You are going to jail for that kind of thing. Especially these days."
 >
 > "Something can be observed as an illegal activity if you're outside of the bounds of where you're supposed to be."
+
+## Key Takeaway
+
+The legal framework isn't just a lecture topic — it's the foundation that makes everything else in this course possible. Understanding s.342.1 of the Criminal Code before touching any tool is what separates a career from a prosecution. That message landed on day one and set the tone for every session that followed.
 
 ## References from this Session
 

@@ -34,6 +34,10 @@ sudo nmap -sC -sV -p- -oN nmap_full.txt <target>
 
 Detailed treatment: [references/tools.md#nmap](../references/tools.md#nmap)
 
+![Nmap scan output with service version detection](../screenshots/wk04_further_nmap_01.png)
+
+![NSE script scan results and output formats](../screenshots/wk04_further_nmap_02.png)
+
 ### 2. OSI Model — Attack Surface View
 
 Revisited the 7 layers with a penetration-tester lens: **which attacks live at which layer?**
@@ -47,6 +51,13 @@ Revisited the 7 layers with a penetration-tester lens: **which attacks live at w
 | 3. Network | ARP spoofing (between L2/L3 in practice), routing attacks, ICMP abuse |
 | 2. Data Link | MAC flooding, VLAN hopping, STP attacks, ARP poisoning |
 | 1. Physical | Cable tapping, shoulder surfing, hardware implants |
+
+![OSI model attack-surface mapping exercise](../screenshots/wk04_osi_recon_webapp_01.png)
+
+![Reconnaissance techniques and web app security introduction](../screenshots/wk04_osi_recon_webapp_02.png)
+
+> [!TIP]
+> When running Nmap, think in OSI layers: `-sS` operates at Layer 4 (Transport), `-sV` probes Layer 7 (Application), and `-O` fingerprints via Layer 3 (Network) TTL behaviour. Mapping each flag to its layer turns scan design from guesswork into a systematic process.
 
 ### 3. Reconnaissance Techniques (Applied)
 
@@ -84,6 +95,13 @@ Each submission followed the course format: tool used → reason → expected ou
 
 - [Nmap](https://tryhackme.com/room/furthernmap) — further Nmap techniques
 - [OWASP Top 10](https://tryhackme.com/room/owasptop10) — introduction (expanded in Week 13)
+
+> [!NOTE]
+> The `-A` aggressive flag combines four scans (`-sV -sC -O --traceroute`) into one command. Convenient in labs, but in a real engagement, running each separately gives finer control over timing and noise.
+
+## Key Takeaway
+
+Mapping attacks to OSI layers transformed Nmap from "a port scanner" into "a tool that tells me which layers of the target are exposed." Thinking in layers makes enumeration systematic rather than ad hoc — and it makes the results far easier to communicate to a client who understands the OSI model but not the tooling.
 
 ## References from this Session
 
