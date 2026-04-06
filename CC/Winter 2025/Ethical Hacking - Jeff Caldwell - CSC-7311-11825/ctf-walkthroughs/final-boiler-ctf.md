@@ -3,6 +3,7 @@
 > **Submission date:** 2025-04-14 · **Final practical exam for CSC-7311**
 > **Room:** [TryHackMe — Boiler CTF](https://tryhackme.com/room/boilerctf2)
 > **Difficulty:** Medium · **Category:** Enumeration, web exploitation, privilege escalation
+> **Estimated time:** ~5 hours (reconnaissance 60 min, enumeration 90 min, exploitation 60 min, privilege escalation 45 min, documentation 45 min)
 
 ## Table of Contents
 
@@ -228,6 +229,10 @@ Aug 20 11:16:35 ... Accepted password for basterd from 10.1.1.1 ...
 ![Sar2HTML — directory listing](../screenshots/wk13_boiler_ctf_09.png)
 ![cat log.txt — credentials discovered](../screenshots/wk13_boiler_ctf_10.png)
 
+> [!TIP]
+> **🛡 Defensive Lens — Web Application Hardening**
+> A WAF (Web Application Firewall) with input validation rules would block the `plot=` parameter injection. Additionally, running Sar2HTML in a sandboxed container with no outbound network access would limit post-exploitation pivoting even if RCE succeeds. Application allowlisting (NIST SP 800-167) is the gold standard for preventing unauthorized code execution.
+
 ---
 
 ## Step 6 — SSH Foothold as `basterd`
@@ -300,6 +305,10 @@ You made it till here, well done.
 **First flag captured.**
 
 ![User flag — .secret contents](../screenshots/wk13_boiler_ctf_14.png)
+
+> [!TIP]
+> **🛡 Defensive Lens — Credential Hygiene**
+> SIEM correlation rules should alert on credential patterns in log files (regex for `password=`, `pass:`, `pwd`). Secret scanning tools like gitleaks and trufflehog in CI pipelines catch hardcoded credentials before deployment. HashiCorp Vault or AWS Secrets Manager eliminate the need for credentials in scripts entirely.
 
 ---
 
@@ -378,6 +387,10 @@ It wasn't that hard, was it?
 ![TryHackMe room completion](../screenshots/wk13_boiler_ctf_19.png)
 ![Room progress screen](../screenshots/wk13_boiler_ctf_20.png)
 ![Final summary](../screenshots/wk13_boiler_ctf_21.png)
+
+> [!TIP]
+> **🛡 Defensive Lens — Privilege Escalation Prevention**
+> Automated SUID auditing (e.g., `find / -perm -4000 -type f` in a daily cron job compared against a baseline allowlist) catches unauthorized SUID changes. Linux Security Modules (AppArmor/SELinux) can confine even SUID binaries to their expected behavior. EDR solutions like CrowdFalcon detect anomalous privilege escalation patterns in real time.
 
 ---
 
@@ -476,16 +489,16 @@ It wasn't that hard, was it?
 > [!CAUTION]
 > This system had **multiple independent paths to root compromise**. Even fixing one vulnerability would not prevent exploitation via the others.
 
-| # | Finding | Severity | CVSS 3.1 | Recommendation |
-|---|---|---|---|---|
-| 1 | Anonymous FTP enabled with file disclosure | **Medium** | 5.3 | Disable anonymous FTP or remove the FTP service entirely. Prefer SFTP with key authentication. |
-| 2 | Sar2HTML 3.2.1 RCE via `plot=` parameter | **Critical** | 9.8 | Patch or remove Sar2HTML immediately. Version 3.2.1 has a known RCE — no authentication required. |
-| 3 | Credentials in `log.txt` on web root | **Critical** | 9.1 | Remove all log files from `DocumentRoot`. Implement log rotation to non-web-accessible paths. |
-| 4 | Credentials hardcoded in `backup.sh` | **High** | 7.5 | Scan code for embedded credentials (gitleaks, trufflehog) in every CI run. Use credential vaults. |
-| 5 | SUID bit on `/usr/bin/find` | **Critical** | 8.8 | Audit SUID binaries regularly. `/usr/bin/find` should never have SUID in production. |
-| 6 | Webmin on port 10000 publicly exposed | **High** | 7.2 | Bind Webmin to management VLAN or VPN only. Never expose admin interfaces to untrusted networks. |
-| 7 | SSH on non-standard port (security through obscurity) | **Low** | 2.0 | Non-standard ports do not provide security. Implement key-only SSH auth and fail2ban. |
-| 8 | No file integrity monitoring | **Medium** | 5.0 | Deploy tripwire/AIDE/auditd to detect SUID bit changes and unauthorized file modifications. |
+| # | Finding | Severity | CVSS 3.1 | CVE / CWE | Recommendation |
+|---|---|---|---|---|---|
+| 1 | Anonymous FTP enabled with file disclosure | **Medium** | 5.3 | [CWE-284](https://cwe.mitre.org/data/definitions/284.html) | Disable anonymous FTP or remove the FTP service entirely. Prefer SFTP with key authentication. |
+| 2 | Sar2HTML 3.2.1 RCE via `plot=` parameter | **Critical** | 9.8 | [CVE-2019-9960](https://nvd.nist.gov/vuln/detail/CVE-2019-9960) · [CWE-78](https://cwe.mitre.org/data/definitions/78.html) | Patch or remove Sar2HTML immediately. Version 3.2.1 has a known RCE — no authentication required. |
+| 3 | Credentials in `log.txt` on web root | **Critical** | 9.1 | [CWE-312](https://cwe.mitre.org/data/definitions/312.html) | Remove all log files from `DocumentRoot`. Implement log rotation to non-web-accessible paths. |
+| 4 | Credentials hardcoded in `backup.sh` | **High** | 7.5 | [CWE-798](https://cwe.mitre.org/data/definitions/798.html) | Scan code for embedded credentials (gitleaks, trufflehog) in every CI run. Use credential vaults. |
+| 5 | SUID bit on `/usr/bin/find` | **Critical** | 8.8 | [CWE-269](https://cwe.mitre.org/data/definitions/269.html) | Audit SUID binaries regularly. `/usr/bin/find` should never have SUID in production. |
+| 6 | Webmin on port 10000 publicly exposed | **High** | 7.2 | [CWE-668](https://cwe.mitre.org/data/definitions/668.html) | Bind Webmin to management VLAN or VPN only. Never expose admin interfaces to untrusted networks. |
+| 7 | SSH on non-standard port (security through obscurity) | **Low** | 2.0 | [CWE-656](https://cwe.mitre.org/data/definitions/656.html) | Non-standard ports do not provide security. Implement key-only SSH auth and fail2ban. |
+| 8 | No file integrity monitoring | **Medium** | 5.0 | [CWE-693](https://cwe.mitre.org/data/definitions/693.html) | Deploy tripwire/AIDE/auditd to detect SUID bit changes and unauthorized file modifications. |
 
 ---
 

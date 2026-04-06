@@ -217,4 +217,32 @@ flowchart TD
 
 ---
 
+## Canada's Anti-Spam Legislation (CASL)
+
+**Statute:** [S.C. 2010, c. 23](https://laws-lois.justice.gc.ca/eng/acts/E-1.6/)
+
+**Relevance to penetration testing:** CASL regulates more than marketing email — it prohibits the **installation of computer programs without consent** (s. 8), which directly affects:
+
+- Deploying reverse shells, keyloggers, or persistence mechanisms on target systems
+- Installing enumeration scripts (LinPEAS, pspy) on compromised hosts
+- Any post-exploitation tool that modifies the target's software environment
+
+**Key provisions:**
+
+| Section | Provision | Pentesting implication |
+|---|---|---|
+| s. 8(1) | No person shall install a computer program on another person's computer system without express consent | Every payload deployed during an engagement requires **prior written authorization** in the Rules of Engagement |
+| s. 8(1)(b) | Consent must be informed — the person must understand the program's function | Scope documents must describe categories of tools (shells, scanners, persistence agents) to be used |
+| s. 10 | Due diligence defence | Maintaining detailed logs of all tools deployed, with timestamps, supports a due diligence claim |
+
+> [!CAUTION]
+> CASL violations carry penalties up to **$1 million (individual)** or **$10 million (corporation)** per violation. Unlike Criminal Code offences, CASL is enforced through administrative monetary penalties — no criminal conviction required.
+
+**Best practice:** Include a CASL acknowledgment clause in every penetration testing contract alongside the Criminal Code authorization discussed above. The clause should:
+1. List categories of software to be installed (shells, scanners, privilege escalation tools)
+2. Specify retention and removal obligations (all tools removed within 24 hours of engagement end)
+3. Reference CASL s. 8 explicitly so both parties demonstrate informed consent
+
+---
+
 _Previous page:_ [Cyber Kill Chain](cyber-kill-chain.md) · _Next page:_ [Tools Reference](tools.md)
