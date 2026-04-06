@@ -334,3 +334,36 @@ The following matrix shows which OWASP categories were directly exercised in eac
 ---
 
 _Previous page:_ [Tools](tools.md) · _Back to:_ [README](../README.md)
+
+---
+
+## Quick-Reference: OWASP Testing Decision Tree
+
+When approaching a web application, use this decision tree to select testing priorities:
+
+```mermaid
+graph TD
+    Start["Target: Web Application"] --> Auth{"Authentication<br/>present?"}
+    Auth -->|Yes| AuthTest["Test A07<br/>Auth Failures"]
+    Auth -->|No| Unauth["Test A01<br/>Broken Access Control"]
+    AuthTest --> Input{"User input<br/>fields?"}
+    Unauth --> Input
+    Input -->|Yes| Inject["Test A03<br/>Injection"]
+    Input -->|No| Config["Test A05<br/>Security Misconfig"]
+    Inject --> Components{"Known<br/>frameworks?"}
+    Config --> Components
+    Components -->|Yes| Outdated["Test A06<br/>Vulnerable Components"]
+    Components -->|No| Crypto{"Sensitive data<br/>in transit/storage?"}
+    Outdated --> Crypto
+    Crypto -->|Yes| CryptoTest["Test A02<br/>Cryptographic Failures"]
+    Crypto -->|No| Design["Test A04<br/>Insecure Design"]
+    CryptoTest --> Logging["Always: Test A09<br/>Logging & Monitoring"]
+    Design --> Logging
+```
+
+> [!TIP]
+> This tree provides a starting heuristic — real engagements test all categories regardless of initial assessment.
+
+---
+
+_Study companion back-reference:_ [Course README](../README.md) · [References](README.md)

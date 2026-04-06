@@ -74,6 +74,10 @@ Weeks 7 (reading week) and 9 (instructor catch-up) had no graded deliverables.
 - **[Mr. Robot CTF](ctf-walkthroughs/mr-robot-ctf.md)** (WordPress enumeration, exploitation)
 - **[Boiler CTF — Final](ctf-walkthroughs/final-boiler-ctf.md)** (FTP anon, Joomla, Sar2HTML RCE, SSH, SUID `find` privesc) — 163 paragraphs, 21 screenshots
 
+### Professional Deliverables
+
+- **[Boiler CTF Executive Summary](assignments/boiler-ctf-executive-summary.md)** — Professional penetration test executive summary (simulated client deliverable)
+
 ### Reference Material (study companions)
 
 - **[OWASP Top 10](references/owasp-top-10.md)** — threat catalog with examples and mitigations
@@ -81,6 +85,7 @@ Weeks 7 (reading week) and 9 (instructor catch-up) had no graded deliverables.
 - **[Cyber Kill Chain](references/cyber-kill-chain.md)** — Lockheed Martin 7-step model
 - **[Legal & Ethics](references/legal-and-ethics.md)** — Canadian Criminal Code, PIPEDA, NDAs, disclosure
 - **[Tools](references/tools.md)** — inventory of every tool used, with canonical commands
+- **[MITRE ATT&CK](references/mitre-attack.md)** — technique reference consolidating all CTF mappings
 
 ---
 
@@ -114,25 +119,15 @@ Phishing email header analysis · payload construction · Wi-Fi Pineapple rogue 
 
 ## Lab Environment
 
-```text
-┌─────────────────────────────────────────┐
-│  Host: Windows laptop                   │
-│  ┌───────────────────────────────────┐  │
-│  │ VirtualBox                        │  │
-│  │   ┌───────────────────────────┐   │  │
-│  │   │ Kali Linux 2024.x         │   │  │
-│  │   │ (attack box)              │   │  │
-│  │   └─────────────┬─────────────┘   │  │
-│  └─────────────────┼─────────────────┘  │
-└────────────────────┼────────────────────┘
-                     │ OpenVPN
-                     ▼
-         ┌───────────────────────────┐
-         │ TryHackMe VPN endpoint    │
-         │ tun0 → 10.x.x.x target    │
-         │ (Pickle Rick / Boiler /   │
-         │  Mr. Robot / etc.)        │
-         └───────────────────────────┘
+```mermaid
+graph LR
+    subgraph Host["Host: Windows Laptop"]
+        subgraph VBox["VirtualBox"]
+            Kali["Kali Linux 2024.x<br/>(attack box)"]
+        end
+    end
+    Kali -->|OpenVPN| VPN["TryHackMe VPN<br/>tun0 → 10.x.x.x"]
+    VPN --> Target["Target VM<br/>(Pickle Rick / Boiler /<br/>Mr. Robot / etc.)"]
 ```
 
 - **Attacker:** Kali Linux (pre-built TryHackMe image or official download) on VirtualBox

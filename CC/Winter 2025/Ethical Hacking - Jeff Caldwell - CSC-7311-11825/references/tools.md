@@ -396,4 +396,113 @@ aircrack-ng -w wordlist.txt capture.cap  # Offline WPA handshake crack
 
 ---
 
+## Burp Suite
+
+**Purpose:** Intercepting web proxy for manual and automated web application testing.
+
+**Category:** Web application analysis
+
+**How it works:**
+1. Configure browser to proxy through `127.0.0.1:8080`
+2. Intercept requests in the Proxy tab — modify parameters, headers, cookies in real time
+3. Use Repeater for manual request tampering; Intruder for automated fuzzing
+4. Scanner (Pro only) crawls and identifies common web vulnerabilities
+
+**Key features used in this course:**
+
+| Feature | Use case |
+|---|---|
+| Proxy → Intercept | Capture and modify HTTP requests to web applications |
+| Repeater | Manually replay modified requests (e.g., testing injection payloads) |
+| Intruder | Automated parameter fuzzing and brute-force attacks |
+| Decoder | Encode/decode Base64, URL, HTML entities, hex |
+| Comparer | Diff two responses to identify subtle differences |
+
+> [!TIP]
+> Burp Suite Community Edition is free and sufficient for most course exercises. The Pro version adds the automated scanner and advanced Intruder features.
+
+**Example:** Intercepting a login request to test for SQL injection:
+```text
+POST /login HTTP/1.1
+Host: target.thm
+Content-Type: application/x-www-form-urlencoded
+
+username=admin' OR 1=1--&password=test
+```
+
+---
+
+## Wireshark & tcpdump
+
+**Purpose:** Network protocol analysis and packet capture.
+
+**Category:** Network analysis
+
+### Wireshark (GUI)
+
+**Key use cases:**
+- Capture traffic on specific interfaces (eth0, tun0 for VPN)
+- Filter with display filters: `http`, `tcp.port == 80`, `ip.addr == 10.10.x.x`
+- Follow TCP streams to reconstruct full conversations
+- Export objects (HTTP files, SMB transfers)
+
+### tcpdump (CLI)
+
+**Common commands:**
+```bash
+# Capture all traffic on tun0 (TryHackMe VPN interface)
+sudo tcpdump -i tun0 -w capture.pcap
+
+# Filter by host and port
+sudo tcpdump -i eth0 host 10.10.10.10 and port 80
+
+# Read a capture file with verbose output
+tcpdump -r capture.pcap -vv
+
+# Capture only SYN packets (connection initiation)
+sudo tcpdump -i tun0 'tcp[tcpflags] & tcp-syn != 0'
+```
+
+> [!NOTE]
+> tcpdump is invaluable when Wireshark is unavailable (e.g., SSH-only access to a compromised host). Learning both ensures coverage in any engagement scenario.
+
+---
+
+## Tools Awareness — Not Covered In-Depth
+
+The following tools were discussed or demonstrated but not used hands-on in CTF rooms. Awareness of their purpose and positioning is relevant for interviews and team collaboration.
+
+| Tool | Category | Purpose |
+|---|---|---|
+| **Maltego** | OSINT / Recon | Visual link analysis and relationship mapping for domains, emails, IPs |
+| **Responder** | Credential Capture | LLMNR/NBT-NS/mDNS poisoner for capturing NTLMv2 hashes on Windows networks |
+| **BloodHound** | Active Directory | Graph-based AD privilege escalation path finder |
+| **Cobalt Strike** | C2 Framework | Commercial adversary simulation and red team operations platform |
+| **Shodan** | OSINT / Recon | Internet-connected device search engine (IoT, servers, SCADA) |
+| **CrackMapExec** | Post-Exploitation | Swiss army knife for Windows/AD network pentesting |
+| **Impacket** | Network Protocols | Python collection for working with SMB, MSRPC, Kerberos, WMI |
+| **Chisel** | Pivoting | Fast TCP/UDP tunnel over HTTP for pivoting through compromised hosts |
+
+> [!TIP]
+> When asked about unfamiliar tools in interviews, demonstrating awareness of *what category* a tool falls into (recon, exploitation, post-exploitation, C2) shows framework-level thinking even without hands-on experience.
+
+---
+
+## Third-Party Scripts & Attribution
+
+The following third-party scripts were used during CTF engagements. They are **not included in this repository** (they are downloaded onto the target during engagements) but are documented here for reference.
+
+| Script | Author / Project | Purpose | License |
+|---|---|---|---|
+| **linpeas.sh** | [PEASS-ng](https://github.com/peass-ng/PEASS-ng) | Linux privilege escalation enumeration | GNU GPL v3 |
+| **pspy** | [DominicBreuker](https://github.com/DominicBreuker/pspy) | Unprivileged Linux process snooping | GNU GPL v3 |
+| **php-reverse-shell.php** | [pentestmonkey](https://github.com/pentestmonkey/php-reverse-shell) | PHP reverse shell for web server exploitation | GNU GPL v2 |
+
+> [!NOTE]
+> These tools were used in TryHackMe lab environments only. In a real engagement, tool usage must be pre-approved in the Rules of Engagement and documented in the final report.
+
+---
+
 _Previous page:_ [Legal & Ethics](legal-and-ethics.md) · _Next page:_ [OWASP Top 10](owasp-top-10.md)
+
+_Reference back-link:_ [Course README](../README.md) · [References](README.md)

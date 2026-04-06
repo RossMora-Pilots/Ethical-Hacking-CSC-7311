@@ -165,6 +165,49 @@ See [references/legal-and-ethics.md](CC/Winter%202025/Ethical%20Hacking%20-%20Je
 
 ---
 
+## Skill Progression
+
+A week-by-week view of offensive security skills developed throughout this course:
+
+```mermaid
+timeline
+    title Ethical Hacking Skill Progression — Winter 2025
+    section Foundation (Weeks 1–4)
+        Week 01 : Ethics & Legal Framework
+                : Criminal Code s.342.1, s.184
+        Week 02 : Linux CLI & Bash Scripting
+                : Navigation, permissions, pipes
+        Week 03 : Networking Fundamentals
+                : OSI model, TCP/IP, subnetting
+        Week 04 : Reconnaissance & OSINT
+                : Nmap, Shodan, Google dorking
+    section Core Exploitation (Weeks 5–8)
+        Week 05 : Web Application Attacks
+                : OWASP Top 10, SQL injection, XSS
+        Week 06 : System Hacking & Privilege Escalation
+                : SUID, sudo abuse, GTFOBins
+        Week 07 : Password Attacks
+                : Hydra, John the Ripper, hashcat
+        Week 08 : Midterm — Pickle Rick CTF
+                : Full pentest lifecycle (recon → root)
+    section Advanced (Weeks 9–13)
+        Week 09 : Wireless & Network Attacks
+                : ARP spoofing, MITM concepts
+        Week 10 : Social Engineering
+                : Phishing frameworks, pretexting
+        Week 11 : Metasploit Framework
+                : Msfconsole, meterpreter, msfvenom
+        Week 12 : Mr. Robot CTF
+                : WordPress exploitation, SUID escalation
+        Week 13 : Final — Boiler CTF
+                : Multi-vector attack, Sar2HTML RCE
+```
+
+> [!NOTE]
+> Each week built on the previous, culminating in two full-lifecycle CTF assessments that required combining reconnaissance, exploitation, privilege escalation, and reporting skills.
+
+---
+
 ## About the Author
 
 **Ross Moravec** · Postgraduate Cybersecurity Certificate candidate, Cambrian College (Sudbury, Ontario). Background spans software development, IT business analysis, project planning, and systems administration. This portfolio is one of a series of course repositories documenting the Fall 2024 – Winter 2025 program.
@@ -178,6 +221,30 @@ Companion portfolios:
 - [010 — Intro to Cybersecurity (CSC-7301)](../010-Intro-To-Cybersecurity-Csc-7301-Fall-2024-Instructor-Maryam-Ahmed)
 - [008 — Cybersecurity Network Defense](../008-Cybersecurity-Network-Defense-Portfolio)
 - [009 — Course Repository Template & Guidelines](../009-Course-Repository-Template-and-Guidelines)
+
+---
+
+## What's Next
+
+```mermaid
+graph LR
+    Now["Current:<br/>Cambrian College<br/>Cybersecurity Certificate"] --> Cert["Near-term:<br/>CompTIA Security+<br/>eJPTv2"]
+    Cert --> Role["Target Role:<br/>Junior Pentester /<br/>SOC Analyst"]
+    Role --> Growth["Growth Path:<br/>OSCP / PNPT<br/>Bug Bounty Program"]
+    Growth --> Senior["Long-term:<br/>Senior Pentester /<br/>Red Team Lead"]
+```
+
+**Immediate goals (2025):**
+
+- Complete the Postgraduate Cybersecurity Certificate (in progress)
+- Earn CompTIA Security+ certification
+- Continue building TryHackMe portfolio (current focus: Active Directory rooms)
+
+**12-month targets:**
+
+- Pursue eLearnSecurity Junior Penetration Tester (eJPTv2) or TCM PNPT certification
+- Contribute to open-source security tooling
+- Begin responsible disclosure / bug bounty participation (HackerOne, Bugcrowd)
 
 ---
 

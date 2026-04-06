@@ -11,26 +11,21 @@ Full hands-on CTF exercise against a WordPress-based target themed on the USA Ne
 
 ## Attack Path (Summary)
 
-```text
-Nmap 80/tcp
-   ↓
-robots.txt → key-1-of-3.txt + fsocity.dic
-   ↓
-WordPress discovered → enumerate user "elliot"
-   ↓
-WPScan + deduplicated fsocity.dic → password "ER28-0652"
-   ↓
-WP admin → theme editor → PHP reverse shell
-   ↓
-Shell as daemon → find password.raw-md5
-   ↓
-John the Ripper crack → "abcdefghijklmnopqrstuvwxyz"
-   ↓
-su robot → key-2-of-3.txt
-   ↓
-SUID nmap → nmap --interactive → !sh → root
-   ↓
-key-3-of-3.txt
+```mermaid
+graph TD
+    Nmap["Nmap scan → 80/tcp"] --> Robots["robots.txt discovery"]
+    Robots --> Key1["key-1-of-3.txt + fsocity.dic"]
+    Nmap --> Gobuster["Gobuster → /wp-login"]
+    Gobuster --> WPScan["WPScan user enum → 'elliot'"]
+    WPScan --> Brute["Brute-force w/ fsocity.dic<br/>→ password 'ER28-0652'"]
+    Brute --> Theme["WP admin → Theme Editor<br/>→ PHP reverse shell"]
+    Theme --> Shell["Reverse shell as daemon"]
+    Shell --> MD5["/home/robot/password.raw-md5"]
+    MD5 --> John["John the Ripper crack<br/>→ 'abcdefghijklmnopqrstuvwxyz'"]
+    John --> Key2["su robot → key-2-of-3.txt"]
+    Shell --> SUID["Find SUID nmap"]
+    SUID --> Root["nmap --interactive → !sh → root"]
+    Root --> Key3["/root/ → key-3-of-3.txt"]
 ```
 
 ![Mr. Robot CTF — attack path from initial Nmap scan through WordPress exploitation to root](../screenshots/wk12_mr_robot_01.png)

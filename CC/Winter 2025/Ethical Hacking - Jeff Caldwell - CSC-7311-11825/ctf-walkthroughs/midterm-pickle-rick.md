@@ -227,6 +227,10 @@ less Sup3rS3cretPickl3Ingred.txt
 ![cat blocked — command filter](../screenshots/wk08_pickle_rick_13.png)
 ![less bypass — first ingredient](../screenshots/wk08_pickle_rick_14.png)
 
+> [!TIP]
+> **🛡 Defensive Lens — Command Injection Prevention**
+> Input validation and parameterized commands prevent OS injection (OWASP ASVS V5). A properly configured Content Security Policy (CSP) and disabling dangerous PHP functions (`disable_functions` in php.ini: `exec, system, passthru, shell_exec`) would have blocked this attack vector entirely.
+
 ---
 
 ## Step 7 — Find the Second Ingredient
@@ -283,6 +287,10 @@ User www-data may run the following commands on the target:
 ![Third ingredient from /root/3rd.txt](../screenshots/wk08_pickle_rick_19.png)
 ![Privilege escalation confirmation](../screenshots/wk08_pickle_rick_20.png)
 
+> [!TIP]
+> **🛡 Defensive Lens — Least Privilege**
+> The principle of least privilege (NIST SP 800-53 AC-6) requires that service accounts like `www-data` have no sudo access. If administrative commands are needed, use dedicated service accounts with narrowly scoped sudoers entries (`www-data ALL=(ALL) NOPASSWD: /usr/bin/specific-command`) rather than blanket `ALL`.
+
 ---
 
 ## Step 9 — Challenge Completion
@@ -330,13 +338,13 @@ Submitted three ingredients via TryHackMe's room interface. Room marked Complete
 
 If this were a real engagement, the following remediation would be recommended:
 
-| # | Finding | Severity | CVSS 3.1 | Recommendation |
-|---|---|---|---|---|
-| 1 | Credentials in HTML comments | **High** | 7.5 | Remove all developer comments from production HTML. Implement code-review gates that scan for credential patterns before deployment. |
-| 2 | Password exposed in `robots.txt` | **Critical** | 9.8 | Never store credentials in web-accessible files. Rotate all credentials immediately. Audit `robots.txt` as part of deployment checklist. |
-| 3 | Unauthenticated command execution panel | **Critical** | 10.0 | Remove the command panel entirely, or restrict to localhost-only access with MFA. No web application should expose a shell interface. |
-| 4 | Ineffective `cat` command filter | **Medium** | 5.3 | Denylist-based command filtering is fundamentally broken. Use allowlists or remove shell access entirely. |
-| 5 | `sudo NOPASSWD: ALL` for www-data | **Critical** | 9.8 | Apply principle of least privilege. Web service accounts should never have sudo access. If needed, restrict to specific commands only. |
+| # | Finding | Severity | CVSS 3.1 | CVE / CWE | Recommendation |
+|---|---|---|---|---|---|
+| 1 | Credentials in HTML comments | **High** | 7.5 | [CWE-615](https://cwe.mitre.org/data/definitions/615.html) | Remove all developer comments from production HTML. Implement code-review gates that scan for credential patterns before deployment. |
+| 2 | Password exposed in `robots.txt` | **Critical** | 9.8 | [CWE-200](https://cwe.mitre.org/data/definitions/200.html) | Never store credentials in web-accessible files. Rotate all credentials immediately. Audit `robots.txt` as part of deployment checklist. |
+| 3 | Unauthenticated command execution panel | **Critical** | 10.0 | [CWE-78](https://cwe.mitre.org/data/definitions/78.html) | Remove the command panel entirely, or restrict to localhost-only access with MFA. No web application should expose a shell interface. |
+| 4 | Ineffective `cat` command filter | **Medium** | 5.3 | [CWE-78](https://cwe.mitre.org/data/definitions/78.html) | Denylist-based command filtering is fundamentally broken. Use allowlists or remove shell access entirely. |
+| 5 | `sudo NOPASSWD: ALL` for www-data | **Critical** | 9.8 | [CWE-269](https://cwe.mitre.org/data/definitions/269.html) | Apply principle of least privilege. Web service accounts should never have sudo access. If needed, restrict to specific commands only. |
 
 **Risk Summary:** This system has **zero effective security layers** once the attacker discovers the exposed credentials. Defense-in-depth was completely absent.
 

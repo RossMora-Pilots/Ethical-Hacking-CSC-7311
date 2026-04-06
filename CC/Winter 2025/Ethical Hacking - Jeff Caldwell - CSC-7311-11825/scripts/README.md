@@ -9,6 +9,9 @@ Student-authored automation from CSC-7311 labs. Includes shell scripts and Pytho
 | [`fsocity_dedupe.sh`](fsocity_dedupe.sh) | Deduplicate fsocity.dic for Mr. Robot WP brute-force (858k → 11.5k lines) | Week 12 | Bash |
 | [`ctf_recon.sh`](ctf_recon.sh) | Standardized Nmap + Gobuster + whatweb initial recon one-shot | Personal helper | Bash |
 | [`rot13_decode.py`](rot13_decode.py) | Quick ROT13 round-trip for CTF hint files (.info.txt on Boiler) | Week 13 | Python 3 |
+| [`nmap_parser.py`](nmap_parser.py) | Parse Nmap XML output (-oX) into a clean summary table | Portfolio helper | Python 3 |
+| [`report_gen.sh`](report_gen.sh) | Generate a markdown penetration test report skeleton | Portfolio helper | Bash |
+| [`vuln_priority.py`](vuln_priority.py) | Read a vulnerability CSV and prioritize by CVSS score | Portfolio helper | Python 3 |
 
 ## Conventions
 

