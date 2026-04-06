@@ -34,13 +34,24 @@ Public, employer-facing portfolio for the Ethical Hacking course taught by Jeff 
 - [x] Embed screenshots into CTF walkthrough documents (Pickle Rick: 25, Boiler: 21, Mr. Robot: 1)
 - [ ] Add link-check CI (lychee) and shellcheck validation for lab scripts
 - [ ] Expand Week 2 / Week 7 / Week 9 gaps where material exists in transcripts
-- [ ] Extract student-authored scripts (fsocity_dedupe.sh, ctf_recon.sh, rot13_decode.py) to scripts/ directory
+- [x] Extract student-authored scripts (fsocity_dedupe.sh, ctf_recon.sh, rot13_decode.py) to scripts/ directory
+- [x] Embed screenshots into weekly reports (21 screenshots across 8 reports)
+- [x] Add Mermaid diagrams to weekly reports (6 diagrams: wk04, wk05, wk06, wk08, wk10, wk11)
+- [x] Add Key Takeaway reflections to all 11 weekly reports
+- [x] Standardize GitHub callouts across all weekly reports and reference docs (~27 new callouts)
+- [x] Add cross-CTF comparison table to ctf-walkthroughs/README.md
+- [x] Expand Metasploit section in tools.md (3 lines → 50 lines)
+- [x] Add "Is this legal?" authorization decision tree to legal-and-ethics.md
+- [x] Add career objective + contact info to top-level README
+- [x] Improve references/README.md with reading order and estimated times
+- [x] Formalize Mr. Robot Steps 7-9 and add transparency note about screenshots
+- [x] Complete portfolio audit and remediation (documented in docs/PORTFOLIO_AUDIT_AND_REMEDIATION.md)
 
 ## Later
 
 - [ ] Optional GitHub Pages landing with CTF writeup gallery
 - [ ] Add architecture diagrams of lab network (Kali attacker + TryHackMe target)
-- [ ] Record learning reflection and career-application narrative
+- [x] Record learning reflection and career-application narrative (Key Takeaway sections in all 11 weekly reports)
 - [ ] Contribute CTF solutions upstream (personal blog, Medium) with canonical links here
 - [ ] Add MITRE ATT&CK technique mapping table per walkthrough
 
