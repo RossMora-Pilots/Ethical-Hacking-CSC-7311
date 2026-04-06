@@ -6,7 +6,7 @@ on:
     paths: ["**.sh"]
   push:
     paths: ["**.sh"]
-    branches: [master]
+    branches: [master, main]
   workflow_dispatch:
 
 jobs:
