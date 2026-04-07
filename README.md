@@ -214,7 +214,7 @@ timeline
 
 **Seeking:** a junior penetration tester, SOC analyst, or application security role where I can apply offensive security methodology to defend enterprise systems.
 
-📫 **Contact:** [LinkedIn](https://www.linkedin.com/in/rossmoravec/) · [GitHub](https://github.com/RossMora)
+📫 **Contact:** [LinkedIn](https://www.linkedin.com/in/ross-moravec/) · [GitHub](https://github.com/RossMora)
 
 Companion portfolios:
 
