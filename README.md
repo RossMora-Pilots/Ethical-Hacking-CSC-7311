@@ -3,8 +3,8 @@
 > Postgraduate Cybersecurity Certificate · Cambrian College · Winter 2025
 > Instructor: **Jeff Caldwell** · Course Code: **CSC-7311-11825**
 
-[![Markdown Lint](https://github.com/RossMora/409-ethical-hacking/actions/workflows/markdownlint.yml/badge.svg)](https://github.com/RossMora/409-ethical-hacking/actions/workflows/markdownlint.yml)
-[![Gitleaks](https://github.com/RossMora/409-ethical-hacking/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/RossMora/409-ethical-hacking/actions/workflows/gitleaks.yml)
+[![Markdown Lint](https://github.com/RossMora-Pilots/Ethical-Hacking-CSC-7311/actions/workflows/markdownlint.yml/badge.svg)](https://github.com/RossMora-Pilots/Ethical-Hacking-CSC-7311/actions/workflows/markdownlint.yml)
+[![Gitleaks](https://github.com/RossMora-Pilots/Ethical-Hacking-CSC-7311/actions/workflows/gitleaks.yml/badge.svg)](https://github.com/RossMora-Pilots/Ethical-Hacking-CSC-7311/actions/workflows/gitleaks.yml)
 
 A public, employer-facing portfolio documenting a 13-week offensive security course: methodology, reconnaissance, enumeration, exploitation, post-exploitation, and reporting. All offensive work targeted intentionally vulnerable lab environments on TryHackMe; nothing here was aimed at production infrastructure.
 
