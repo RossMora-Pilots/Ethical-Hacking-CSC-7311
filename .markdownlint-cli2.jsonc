@@ -1,12 +1,13 @@
 {
+  // Inherit comprehensive disable list from .markdownlint.json (24 rules disabled)
   "config": {
-    "MD013": false,
-    "MD033": false,
-    "MD041": false
+    "extends": ".markdownlint.json"
   },
   "ignores": [
     "artifacts/**",
     "sessions/**",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "**/target/**",
+    "**/transcripts/**"
   ]
 }
