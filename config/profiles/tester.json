@@ -1,0 +1,11 @@
+{
+  "persona": "Tester",
+  "focus": ["e2e_testing", "security_scanning", "performance_benchmarking"],
+  "model_preferences": {
+    "verification": "gemini-3.1-pro"
+  },
+  "constraints": {
+    "max_tokens": 2048,
+    "temperature": 0.1
+  }
+}

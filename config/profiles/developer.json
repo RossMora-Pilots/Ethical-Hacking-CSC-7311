@@ -1,0 +1,12 @@
+{
+  "persona": "Developer",
+  "focus": ["implementation", "refactoring", "unit_testing"],
+  "model_preferences": {
+    "coding": "claude-3.5-sonnet",
+    "review": "gemini-3.1-pro"
+  },
+  "constraints": {
+    "max_tokens": 4096,
+    "temperature": 0.5
+  }
+}

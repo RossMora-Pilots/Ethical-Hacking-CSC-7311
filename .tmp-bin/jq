@@ -1,0 +1,18 @@
+#!/bin/bash
+# WSL-compatible jq wrapper that handles path conversion for Windows binary
+
+args=()
+for arg in "$@"; do
+    if [[ "$arg" == /* ]]; then
+        # If it's an absolute path, convert to Windows format
+        if command -v wslpath &> /dev/null; then
+            args+=("$(wslpath -w "$arg")")
+        else
+            args+=("$arg")
+        fi
+    else
+        args+=("$arg")
+    fi
+done
+
+/mnt/c/Users/rossm/AppData/Local/Microsoft/WinGet/Links/jq.exe "${args[@]}" | tr -d '\r'

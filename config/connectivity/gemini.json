@@ -1,0 +1,11 @@
+{
+  "service": "gemini",
+  "endpoint": "https://generativelanguage.googleapis.com",
+  "auth_method": "adc",
+  "capabilities": [
+    "planning",
+    "execution",
+    "verification",
+    "browser_interaction"
+  ]
+}

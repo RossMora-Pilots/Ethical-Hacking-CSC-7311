@@ -1,0 +1,10 @@
+{
+  "user": "rossm",
+  "theme": "antigravity-dark",
+  "auto_execution": false,
+  "review_policy": "strict",
+  "agents": {
+    "default_model": "gemini-3.1-pro",
+    "parallel_limit": 3
+  }
+}

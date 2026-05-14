@@ -1,0 +1,12 @@
+{
+  "persona": "Architect",
+  "focus": ["system_design", "scalability", "documentation"],
+  "model_preferences": {
+    "reasoning": "gemini-3.1-pro",
+    "speed": "gemini-3-flash"
+  },
+  "constraints": {
+    "max_tokens": 8192,
+    "temperature": 0.2
+  }
+}
