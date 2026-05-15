@@ -1,5 +1,7 @@
 ## Overview
 
+**Purpose:** Ethical Hacking Portfolio (CSC-7311) — Winter 2025 (Pilot 409).
+
 Purpose: Public portfolio repository for the Ethical Hacking course (CSC-7311) from the Postgraduate Cybersecurity Certificate at Cambrian College (Winter 2025, Instructor: Jeff Caldwell).
 Scope: This directory and all subdirectories.
 
@@ -20,43 +22,6 @@ For deeper searches:
 ```bash
 /mnt/d/pilots/02001-Pilots-Aware-of-Other-Pilots/scripts/search_pilots.sh "topic or keyword"
 ```
-
----
-
-## Quick Start
-
-```bash
-
-# AGENTS.md - Universal Agent Instructions
-
-Marker: PROJECT_OK
-
-## Overview
-
-This pilot follows the **LLM-Agnostic Blueprint** standard, enabling seamless cooperation between Claude Code CLI, Codex CLI, Gemini CLI, and GitHub Copilot CLI.
-
-**Purpose:** Install and configure the Google Antigravity IDE environment, an agent-first development platform. This involves setting up the IDE binaries, configuration profiles, and connectivity modules.
-
-**Scope:** This directory and all subdirectories.
-
-**Components:**
-- **IDE binaries:** Core execution scripts for Antigravity, Agent Manager, and Editor.
-- **Configuration profiles:** User and project-specific settings.
-- **Connectivity modules:** Integration with Gemini and other agent services.
-
-**Key Artifacts:**
-- `artifacts/state.json` — Pilot status and current phase
-- `artifacts/agent-handover.json` — Async agent collaboration log
-- `artifacts/metrics.json` — Operational performance metrics
-- `artifacts/logs/` — Automated script execution logs
-
-**Definition of Done:**
-- [x] All roadmap items completed
-- [x] Health checks pass (`./scripts/health_check.sh`)
-- [x] State file updated (`artifacts/state.json`)
-- [x] Handover record created (`artifacts/agent-handover.json`)
-- [x] Mission Control dashboard functional
-- [x] Agent Manager successfully running task simulations
 
 ---
 
@@ -83,107 +48,66 @@ This pilot follows the **LLM-Agnostic Blueprint** standard, enabling seamless co
 
 ## Agent Coordination Protocol
 
-### State Management
+State and handover are tracked under `artifacts/`:
 
-**Primary State File:** `artifacts/state.json`
-- Updated by any agent after completing work
-- Contains: pilot status, current phase, task counts, health status
-- Must remain valid JSON at all times
+- `artifacts/state.json` — pilot status, phase, task counts; must remain valid JSON
+- `artifacts/agent-handover.json` — append-only handover log
+- `artifacts/.agent-lock` — file lock for concurrent-safe mutations (stale >30 min may be cleared by `auto_heal.sh`)
 
-**Handover File:** `artifacts/agent-handover.json`
-- Append-only log of agent work sessions
-- Each agent adds a handover record when finishing work
-- Enables async collaboration without conflicts
-
-**Lock Mechanism:** `artifacts/.agent-lock`
-- Check before mutating state: `[ -f artifacts/.agent-lock ] && exit 1`
-- Create lock: `echo "$(whoami):$(date -Iseconds)" > artifacts/.agent-lock`
-- Release lock: `rm -f artifacts/.agent-lock`
-- Stale lock detection: locks older than 30 minutes may be cleared by `auto_heal.sh`
-
-### Task Flow
-
-1. **Read** current state from `artifacts/state.json`
-2. **Pull** tasks from `ROADMAP.md` (parsed to `artifacts/roadmap.json`)
-3. **Acquire** lock before mutating files
-4. **Execute** task (implement, fix, document)
-5. **Update** state with task completion
-6. **Release** lock
-7. **Handover** - create handover record for next agent
-
-### Handover Record Format
+Handover record format:
 
 ```json
 {
   "from_agent": "claude-code|codex|gemini|copilot",
   "timestamp": "ISO-8601",
-  "completed_tasks": ["task-id-1", "task-id-2"],
-  "pending_tasks": ["task-id-3"],
+  "completed_tasks": ["task-id-1"],
+  "pending_tasks": ["task-id-2"],
   "notes": "Human-readable summary of work done",
   "blockers": [],
-  "files_modified": ["path/to/file1", "path/to/file2"]
+  "files_modified": ["path/to/file"]
 }
 ```
-
----
-
-## Antigravity IDE Components
-
-### IDE Binaries (`bin/`)
-- `antigravity.sh`: Main entry point. Use `--dashboard` for Mission Control.
-- `agent-manager.sh`: Persona management. Use `--run <persona> "<task>"` to simulate work.
-- `editor.sh`: Workspace editor simulation.
-- `mission-control.sh`: Real-time status dashboard.
-
-### Configuration (`config/`)
-- `profiles/*.json`: Agent persona definitions (Architect, Developer, Tester).
-- `connectivity/gemini.json`: Service integration settings.
 
 ---
 
 ## CLI Entrypoints
 
 | CLI Tool | Primary Config | Skills Directory |
-|----------|---------------|------------------|
+|----------|----------------|------------------|
 | Claude Code | `CLAUDE.md` | `.claude/skills/` |
-| Codex CLI | (reads AGENTS.md) | `.codex/skills/` |
+| Codex CLI | `AGENTS.md` (this file) | `.codex/skills/` |
 | Gemini CLI | `GEMINI.md` | `.gemini/skills/` |
 | GitHub Copilot | `.github/copilot-instructions.md` | `.github/` |
 
-All CLI tools should read this `AGENTS.md` as the canonical source of truth.
+All CLI tools should treat this `AGENTS.md` as the canonical source of truth.
 
 ---
 
 ## Safety Rules
 
-### NEVER Do
-- Commit secrets (API keys, passwords, tokens)
-- Run destructive commands without `--yes` or `--force` flags
-- Modify files without acquiring lock first
-- Skip validation before committing
+### NEVER
+- Commit secrets (API keys, tokens, passwords)
+- Run destructive commands without `--yes`/`--force` flags or explicit user authorization
+- Modify shared state files without acquiring the lock first
 - Echo secret values to console or logs
 
-### ALWAYS Do
+### ALWAYS
 - Validate environment before work: `./scripts/health_check.sh`
-- Update state after completing tasks
-- Create handover record at end of session
+- Update `artifacts/state.json` after completing tasks
+- Create a handover record at end of session
 - Use file locks for concurrent-safe operations
-- Log all remediation actions
+- Log remediation actions
 
 ---
 
 ## Roadmap Integration
 
-### ROADMAP.md Format
-```markdown
-# ROADMAP - Pilot Name
+`ROADMAP.md` uses markdown checkboxes:
 
+```markdown
 ## Phase 1 - Foundation
 - [x] Completed task
 - [ ] Pending task
-- [ ] Another pending task
 ```
 
-### Parsing
-`./scripts/pm.sh parse` converts ROADMAP.md to `artifacts/roadmap.json`.
-
+Run `./scripts/pm.sh parse` to convert ROADMAP.md to `artifacts/roadmap.json`.
