@@ -66,3 +66,13 @@ This pilot uses shared state files for multi-agent coordination:
 
 See `docs/HANDOVER-PROTOCOL.md` for detailed coordination instructions.
 
+<!-- BEGIN: cc-plugins -->
+## Claude Code Plugins
+
+Claude Code plugins are installed at **user scope** - they are already available in this
+pilot; there is **no per-pilot install step**. They add skills, agents, slash commands,
+and MCP tools you can use here directly.
+
+- Themed index of what's installed: `D:\pilots\PLUGINS.md`
+- List the live set anytime: `claude plugin list`  (details: `claude plugin details <name>`)
+<!-- END: cc-plugins -->
