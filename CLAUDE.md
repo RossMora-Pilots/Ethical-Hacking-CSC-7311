@@ -4,7 +4,7 @@ Follow `AGENTS.md` as the canonical guide for this pilot.
 
 ## Pilot Purpose
 
-Install and configure the Google Antigravity IDE environment, an agent-first development platform.
+Ethical Hacking Portfolio (CSC-7311) — Winter 2025 (Pilot 409).
 
 ## Quick Start
 
