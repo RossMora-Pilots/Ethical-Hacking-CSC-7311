@@ -73,6 +73,10 @@ Claude Code plugins are installed at **user scope** - they are already available
 pilot; there is **no per-pilot install step**. They add skills, agents, slash commands,
 and MCP tools you can use here directly.
 
-- Themed index of what's installed: `D:\pilots\PLUGINS.md`
-- List the live set anytime: `claude plugin list`  (details: `claude plugin details <name>`)
+- **Check the current plugin set before assuming a capability is unavailable** - it updates
+  over time. Authoritative live list: `claude plugin list` (whole marketplace:
+  `claude plugin list --available`; one plugin: `claude plugin details <name>`).
+- Claude Code's default store (kept current by the CLI): installed set in
+  `~/.claude/plugins/installed_plugins.json`, enabled-state in `~/.claude/settings.json`.
+- Themed, human-readable index of what's installed: `D:\pilots\PLUGINS.md`.
 <!-- END: cc-plugins -->
