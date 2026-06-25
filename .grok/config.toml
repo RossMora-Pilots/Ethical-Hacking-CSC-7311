@@ -1,0 +1,20 @@
+# Project Grok config for 409-Ethical-Hacking
+# MAX effort is default across the fleet.
+
+# --- MAX effort default (added by global rollout) ---
+# See also ~/.grok/config.toml for fleet-wide persona overrides (implementer, reviewer, etc. forced to "max").
+# Project scope takes precedence. Subagent resolution will use reasoning_effort = "max" by default.
+[subagents]
+enabled = true
+
+[subagents.personas.max]
+description = "MAX reasoning effort default for this pilot (fleet global default)."
+reasoning_effort = "max"
+instructions = """
+You are operating at MAXIMUM reasoning effort.
+- Be exhaustive: consider all paths, alternatives, edge cases.
+- Verify rigorously with evidence before acting or concluding.
+- Break down complex work; show deep reasoning.
+- Highest quality and correctness.
+"""
+default_capability_mode = "all"
